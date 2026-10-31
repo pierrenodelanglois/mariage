@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F5F4EF">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<title>Liste de mariage — Marine &amp; Pierre</title>
+<link rel="stylesheet" href="site.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500&amp;family=Gloock&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#4A6645}a:hover{color:#A23B31}
+
+/* ---------- Page Liste ---------- */
+.liste-intro{max-width:44ch}
+
+.liste-cartes{
+  display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:44px 24px;
+  margin-top:clamp(32px,5vw,56px); align-items:start;
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    html:not(.calme) .liste-cartes.apparait { animation-range: entry 0% entry 18%; }
+  }
+}
+
+.liste-carte{
+  position:relative; background:#FFFDF9; padding:12px 12px 22px; border-radius:2px;
+  transform:rotate(var(--rot,0deg));
+  box-shadow:0 1px 2px rgba(34,48,42,.10), 0 18px 32px -24px rgba(34,48,42,.42);
+  outline:2px solid transparent; outline-offset:5px;
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), outline-color .2s var(--ease);
+}
+.liste-carte:hover{ transform:rotate(calc(var(--rot,0deg) * .4)); }
+.liste-carte--a{ grid-column:1 / span 4; --rot:-1.2deg; }
+.liste-carte--b{ grid-column:5 / span 4; --rot:.8deg; margin-top:56px; }
+.liste-carte--c{ grid-column:9 / span 4; --rot:-.6deg; margin-top:16px; }
+.liste-carte--d{ grid-column:2 / span 4; --rot:1deg; }
+.liste-carte--e{ grid-column:7 / span 4; --rot:-.8deg; margin-top:40px; }
+.liste-carte--choisie{
+  outline-color:var(--encre); transform:rotate(0deg) translateY(-4px);
+  box-shadow:0 1px 2px rgba(34,48,42,.14), 0 26px 38px -24px rgba(34,48,42,.55);
+}
+.liste-carte--choisie:hover{ transform:rotate(0deg) translateY(-4px); }
+
+.liste-carte__image{
+  position:relative; isolation:isolate; overflow:hidden; background:#F3F0E6;
+}
+.liste-carte__image img{ display:block; width:100%; height:auto; }
+.liste-carte__image--vignette{ aspect-ratio:5 / 6; display:grid; place-items:center; }
+.liste-carte__image--vignette img{ width:74%; height:auto; max-height:88%; object-fit:contain; }
+
+.liste-timbre{
+  position:absolute; top:10px; right:10px; width:42px; height:52px; padding:5px; background:#FFFDF9; transform:rotate(3deg);
+  -webkit-mask-image:radial-gradient(circle 3px at 50% 0,#0000 96%,#000),radial-gradient(circle 3px at 50% 100%,#0000 96%,#000),radial-gradient(circle 3px at 0 50%,#0000 96%,#000),radial-gradient(circle 3px at 100% 50%,#0000 96%,#000);
+  mask-image:radial-gradient(circle 3px at 50% 0,#0000 96%,#000),radial-gradient(circle 3px at 50% 100%,#0000 96%,#000),radial-gradient(circle 3px at 0 50%,#0000 96%,#000),radial-gradient(circle 3px at 100% 50%,#0000 96%,#000);
+  -webkit-mask-size:8px 100%,8px 100%,100% 8px,100% 8px; mask-size:8px 100%,8px 100%,100% 8px,100% 8px;
+  -webkit-mask-repeat:repeat-x,repeat-x,repeat-y,repeat-y; mask-repeat:repeat-x,repeat-x,repeat-y,repeat-y;
+  -webkit-mask-composite:source-in; mask-composite:intersect;
+}
+.liste-timbre__fond{ display:block; width:100%; height:100%; }
+.liste-timbre__fond svg{ display:block; width:100%; height:100%; }
+
+.liste-carte__tampon{
+  position:absolute; left:12px; bottom:12px; padding:3px 12px 2px; border:1.5px solid var(--encre); border-radius:3px;
+  background:#FFFDF9; color:var(--encre); font-family:var(--f-display); font-size:1rem; line-height:1.2; transform:rotate(-5deg);
+  visibility:hidden; opacity:0; transition:opacity .25s var(--ease);
+}
+.liste-carte--choisie .liste-carte__tampon{ visibility:visible; opacity:1; }
+
+.liste-carte__corps{ padding:20px 8px 0; }
+.liste-carte__titre{ font-size:clamp(1.4rem,2.2vw,1.75rem); line-height:1.08; }
+.liste-carte__texte{ margin-top:8px; font-style:italic; font-size:1.1rem; line-height:1.4; color:var(--encre-douce); max-width:34ch; }
+.liste-carte__pied{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px 16px;
+  margin-top:20px; padding-top:14px; border-top:1px dashed rgba(34,48,42,.28);
+}
+.liste-carte__montant{ font-family:var(--f-display); font-size:1.5rem; line-height:1; font-variant-numeric:tabular-nums lining-nums; }
+.liste-carte .bouton[aria-pressed="true"]{ border-color:var(--encre); background:rgba(255,255,255,.7); }
+
+/* panneau de participation */
+.liste-panneau{ position:relative; isolation:isolate; margin-top:clamp(48px,7vw,88px); padding-block:36px 44px; border-block:1px solid var(--filet); }
+.liste-panneau__grille{ display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:clamp(28px,5vw,72px); align-items:start; }
+.liste-panneau__titre{ font-size:var(--t-xl); }
+.liste-panneau__nom{ margin-top:14px; font-family:var(--f-display); font-size:var(--t-2xl); line-height:1.05; text-wrap:balance; }
+.liste-panneau__texte{ margin-top:8px; color:var(--encre-douce); max-width:34ch; }
+.liste-lien{
+  margin-top:16px; display:inline-flex; align-items:center; min-height:44px; padding:0 4px; background:none; border:0;
+  color:var(--encre); font:500 1rem var(--f-texte); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:.22em; cursor:pointer;
+}
+.liste-lien:hover{ color:var(--rouge); }
+.liste-formulaire{ display:grid; gap:22px; }
+.liste-montant{ position:relative; max-width:220px; }
+.liste-montant .saisie{ padding-right:40px; font-variant-numeric:tabular-nums lining-nums; }
+.liste-montant__eur{ position:absolute; right:16px; top:50%; transform:translateY(-50%); color:var(--encre-douce); pointer-events:none; }
+.liste-actions{ display:flex; flex-wrap:wrap; align-items:center; gap:12px 20px; }
+.liste-note{ font-size:.95rem; color:var(--encre-douce); max-width:34ch; }
+.liste-actions .bouton[aria-disabled="true"]{ opacity:.55; cursor:not-allowed; }
+
+/* virement */
+.liste-virement{ display:grid; grid-template-columns:minmax(0,4fr) minmax(0,7fr); gap:clamp(28px,6vw,96px); align-items:start; }
+.liste-virement__vignette{ display:block; width:120px; height:auto; margin-top:24px; }
+.liste-rib{ margin:0; border-top:1px solid var(--filet); }
+.liste-rib__ligne{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,2.4fr); gap:6px 24px; padding:16px 4px; margin:0; border-bottom:1px solid var(--filet); align-items:baseline; }
+.liste-rib dt{ color:var(--encre-douce); }
+.liste-rib dd{ margin:0; font-size:1.25rem; letter-spacing:.03em; font-variant-numeric:tabular-nums lining-nums; overflow-wrap:anywhere; }
+.liste-rib__actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:24px; }
+
+.liste-jour{ display:grid; grid-template-columns:minmax(0,4fr) minmax(0,7fr); gap:clamp(20px,6vw,96px); align-items:start; }
+.liste-jour__texte{ font-size:var(--t-l); line-height:1.5; max-width:36ch; }
+
+.liste-fin{ position:relative; isolation:isolate; padding-block:clamp(56px,9vw,128px) clamp(24px,4vw,48px); }
+.liste-fin__ligne{ font-size:clamp(2.4rem,6.4vw,5rem); line-height:.98; letter-spacing:-.02em; max-width:11ch; }
+.liste-fin__action{ margin-top:32px; }
+
+@media (max-width: 860px) {
+  .liste-cartes{ grid-template-columns:minmax(0,1fr); gap:36px; }
+  .liste-carte--a, .liste-carte--b, .liste-carte--c, .liste-carte--d, .liste-carte--e{ grid-column:1; margin-top:0; width:calc(100% - 14px); max-width:400px; }
+  .liste-carte--a, .liste-carte--c, .liste-carte--e{ margin-left:0; margin-right:auto; }
+  .liste-carte--b, .liste-carte--d{ margin-left:auto; margin-right:0; }
+  .liste-panneau__grille, .liste-virement, .liste-jour{ grid-template-columns:minmax(0,1fr); }
+}
+@media (max-width: 520px) {
+  .liste-rib__ligne{ grid-template-columns:minmax(0,1fr); }
+  .liste-rib dd{ font-size:1.15rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .liste-carte, .liste-carte:hover{ transition:none; }
+}
+</style>
+<link rel="icon" href="assets/monogramme.webp">
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-tpl">
+
+
+<div class="page" style="position: relative; min-height: 100vh; overflow-x: clip;">
+
+<svg class="defs" aria-hidden="true" focusable="false">
+  <filter id="fremit" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="2" result="bruit">
+      <animate attributeName="seed" values="2;7;4;9;1;6" dur="0.7s" calcMode="discrete" repeatCount="indefinite"></animate>
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="bruit" scale="3.2" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+  <filter id="grain-pierre" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="11"></feTurbulence>
+    <feColorMatrix type="matrix" values="0 0 0 0 0.42  0 0 0 0 0.35  0 0 0 0 0.26  0 0 0 0.6 0"></feColorMatrix>
+  </filter>
+</svg>
+
+<a class="saut" href="#contenu">Aller au contenu</a>
+
+<header class="wrap">
+  <nav class="nav" aria-label="Navigation principale">
+    <a class="nav__marque" href="index.html">
+      <img class="nav__monogramme" src="assets/monogramme.webp" alt="" width="664" height="583">
+      <span>Marine &amp; Pierre</span>
+    </a>
+    <ul class="nav__liens">
+      <li><a href="programme.html">Programme</a></li>
+      <li><a href="acces.html">Accès</a></li>
+      <li><a href="hebergements.html">Hébergements</a></li>
+      <li><a href="liste.html" aria-current="page">Liste de mariage</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li style="margin-left: 12px;"><a class="bouton bouton--plein bouton--petit" href="repondre.html" style="color: #FFF9F4;">Répondre</a></li>
+    </ul>
+    <button class="icone-bouton nav__menu" type="button" aria-expanded="{{menuEtat}}" onClick="{{ouvrir}}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5c5.3-.4 10.7-.3 16 0M4 12.2c5.3-.3 10.7-.2 16 .1M4 16.8c5.3-.4 10.7-.3 16 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+      Menu
+    </button>
+  </nav>
+</header>
+
+<sc-if value="{{menu}}" hint-placeholder-val="{{false}}">
+  <div class="voile-menu" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="voile-menu__tete">
+      <a class="nav__marque" href="index.html"><span>Marine &amp; Pierre</span></a>
+      <button class="icone-bouton" type="button" onClick="{{fermer}}" aria-label="Fermer le menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6.3c4 3.6 8 7.5 12 11.5M18 6c-3.9 4-7.9 7.9-12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+      </button>
+    </div>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="programme.html">Programme</a></li>
+      <li><a href="acces.html">Accès</a></li>
+      <li><a href="hebergements.html">Hébergements</a></li>
+      <li><a href="liste.html" aria-current="page">Liste de mariage</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="voile-menu__pied">
+      <a class="bouton bouton--plein" href="repondre.html" style="color: #FFF9F4;">Répondre à l’invitation</a>
+      <p style="color: #4B5A51; font-size: 0.95rem;">Samedi 12 juin 2027, Guéthary puis Sare</p>
+    </div>
+  </div>
+</sc-if>
+
+<main id="contenu">
+
+  <section class="entete" aria-labelledby="titre-liste">
+    <div class="lavis lavis--rose" style="right: -4%; top: -6%; width: 40%; height: 118%; opacity: 0.36;"></div>
+    <div class="wrap entete__grille">
+      <div>
+        <h1 id="titre-liste" class="entete__titre">Liste de mariage</h1>
+        <p class="entete__intro liste-intro">Votre présence est le plus beau des cadeaux. Pour celles et ceux qui le souhaitent, nous rêvons d’un voyage de noces aux Açores, en septembre 2027 : de l’océan encore, et des volcans couverts d’hortensias.</p>
+      </div>
+      <div class="entete__deco">
+        <img src="assets/vignettes/valise.webp" alt="" width="504" height="471" style="display: block; width: min(100%, 240px); height: auto; margin-left: auto;">
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="titre-voyage">
+    <div class="lavis lavis--bleu" style="left: -14%; top: 34%; width: 52%; height: 40%; opacity: 0.3;"></div>
+    <h2 id="titre-voyage" class="section__titre">Le voyage, carte par carte</h2>
+    <p class="section__intro">Choisissez une carte, ou laissez le montant libre : chacune est une page de notre carnet de route.</p>
+
+    <div class="liste-cartes apparait">
+      <sc-for list="{{cartes}}" as="item" hint-placeholder-count="3">
+        <article class="{{item.cls}}">
+          <div class="{{item.imageCls}}">
+            <img src="{{item.image}}" alt="{{item.alt}}" width="{{item.imageW}}" height="{{item.imageH}}" loading="lazy">
+            <div class="liste-timbre" aria-hidden="true">
+              <span class="liste-timbre__fond" style="background: {{item.timbreStyle}};"><svg viewBox="0 0 30 40"><path d="M3 27c4-3 6 3 10 0s6-3 10 0M3 32c4-3 6 3 10 0s6-3 10 0" fill="none" stroke="#FFFDF9" stroke-width="1.3" stroke-linecap="round"></path></svg></span>
+            </div>
+            <span class="liste-carte__tampon" aria-hidden="true">Choisie</span>
+          </div>
+          <div class="liste-carte__corps">
+            <h3 class="liste-carte__titre">{{item.titre}}</h3>
+            <p class="liste-carte__texte">{{item.texte}}</p>
+            <div class="liste-carte__pied">
+              <p class="liste-carte__montant">{{item.montantTxt}}</p>
+              <button class="bouton bouton--trait bouton--petit" type="button" aria-pressed="{{item.pressed}}" aria-label="{{item.aria}}" onClick="{{item.pick}}">Participer</button>
+            </div>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{choisie}}" hint-placeholder-val="{{false}}">
+      <div id="participation" class="liste-panneau" role="region" aria-labelledby="titre-participation">
+        <div class="lavis lavis--sable" style="left: -8%; top: -10%; width: 46%; height: 130%; opacity: 0.45;"></div>
+        <div class="liste-panneau__grille">
+          <div>
+            <h3 id="titre-participation" class="liste-panneau__titre">Votre participation</h3>
+            <p class="liste-panneau__nom">{{choixTitre}}</p>
+            <p class="liste-panneau__texte">{{choixTexte}}</p>
+            <button class="liste-lien" type="button" onClick="{{effacer}}">Changer de carte</button>
+          </div>
+          <div class="liste-formulaire">
+            <div class="champ">
+              <label for="liste-montant">Montant, en euros</label>
+              <div class="liste-montant">
+                <input class="saisie" id="liste-montant" type="text" inputmode="numeric" autocomplete="off" value="{{montant}}" onInput="{{saisirMontant}}" aria-describedby="liste-aide-montant">
+                <span class="liste-montant__eur" aria-hidden="true">€</span>
+              </div>
+              <p class="champ__aide" id="liste-aide-montant">{{aideMontant}}</p>
+            </div>
+            <div class="champ">
+              <label for="liste-message">Un petit mot, si vous le souhaitez</label>
+              <textarea class="saisie" id="liste-message" rows="4" value="{{message}}" onInput="{{saisirMessage}}" placeholder="Pour que nous sachions à qui dire merci."></textarea>
+            </div>
+            <div class="liste-actions">
+              <a class="bouton bouton--plein" href="https://www.leetchi.com" target="_blank" rel="noopener" style="color: #FFF9F4;" aria-disabled="{{lienDesactive}}" onClick="{{continuer}}">Continuer vers la cagnotte</a>
+              <p class="liste-note">Le paiement se fait sur notre cagnotte en ligne sécurisée.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+  </section>
+
+  <section class="section wrap" aria-labelledby="titre-virement">
+    <div class="liste-virement">
+      <div>
+        <h2 id="titre-virement" class="section__titre">Par virement</h2>
+        <p class="section__intro">Si vous préférez un virement, voici nos coordonnées bancaires ; un petit mot avec votre nom nous fera sourire.</p>
+        <img class="liste-virement__vignette" src="assets/vignettes/enveloppe.webp" alt="" width="472" height="376" loading="lazy">
+      </div>
+      <div>
+        <dl class="liste-rib" id="liste-rib">
+          <div class="liste-rib__ligne">
+            <dt>Titulaire</dt>
+            <dd>Marine et Pierre Duval</dd>
+          </div>
+          <div class="liste-rib__ligne">
+            <dt>IBAN</dt>
+            <dd>{{iban}}</dd>
+          </div>
+          <div class="liste-rib__ligne">
+            <dt>BIC</dt>
+            <dd>{{bic}}</dd>
+          </div>
+        </dl>
+        <div class="liste-rib__actions">
+          <button class="bouton bouton--trait" type="button" aria-expanded="{{ribEtat}}" aria-controls="liste-rib" onClick="{{basculerRib}}">{{ribLabel}}</button>
+          <sc-if value="{{rib}}" hint-placeholder-val="{{false}}">
+            <button class="bouton bouton--trait" type="button" onClick="{{copier}}">{{copieLabel}}</button>
+          </sc-if>
+        </div>
+        <p class="sr" aria-live="polite">{{copieAnnonce}}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="titre-jourj" style="padding-top: 0;">
+    <hr class="filet" style="margin-bottom: clamp(40px, 6vw, 88px);">
+    <div class="liste-jour">
+      <h2 id="titre-jourj" class="section__titre">Le jour J</h2>
+      <p class="liste-jour__texte">Une urne en osier vous attendra près du fronton, pour les cartes et les petits mots.</p>
+    </div>
+  </section>
+
+  <section class="liste-fin wrap" aria-labelledby="titre-danser">
+    <div class="lavis lavis--sauge" style="left: -10%; top: 6%; width: 58%; height: 92%; opacity: 0.4;"></div>
+    <h2 id="titre-danser" class="liste-fin__ligne">Et surtout, venez danser.</h2>
+    <p class="liste-fin__action"><a class="bouton bouton--plein" href="repondre.html" style="color:#FFF9F4;">Répondre à l’invitation</a></p>
+  </section>
+
+</main>
+
+<nav class="barre" aria-label="Navigation rapide">
+    <a class="barre__lien" href="programme.html"><img src="assets/vignettes/calendrier.webp" alt="" width="426" height="517"><span>Programme</span></a>
+    <a class="barre__lien" href="acces.html"><img src="assets/vignettes/carte.webp" alt="" width="462" height="450"><span>Accès</span></a>
+    <a class="barre__lien barre__lien--rsvp" href="repondre.html"><img src="assets/vignettes/enveloppe.webp" alt="" width="472" height="376"><span>Répondre</span></a>
+    <a class="barre__lien" href="hebergements.html"><img src="assets/vignettes/cle.webp" alt="" width="438" height="522"><span>Dormir</span></a>
+    <button class="barre__lien" type="button" onClick="{{ouvrir}}" aria-expanded="{{menuEtat}}" aria-label="Plus de pages : accueil, liste de mariage, contact"><svg viewBox="0 0 26 30" aria-hidden="true"><circle cx="5" cy="17" r="2.2" fill="currentColor"></circle><circle cx="13" cy="16.6" r="2.2" fill="currentColor"></circle><circle cx="21" cy="17.2" r="2.2" fill="currentColor"></circle></svg><span>Plus</span></button>
+</nav>
+
+<footer class="pied">
+  <div class="lavis lavis--sauge pied__lavis"></div>
+  <div class="wrap">
+    <div class="pied__appel">
+      <div>
+        <h2 class="pied__titre">Serez-vous des nôtres ?</h2>
+        <p class="pied__texte">Merci de nous répondre avant le 15 mars 2027 : le traiteur a besoin de connaître le nombre de couverts et vos éventuelles allergies.</p>
+      </div>
+      <div class="pied__actions">
+        <a class="bouton bouton--plein" href="repondre.html" style="color: #FFF9F4;">Répondre à l’invitation</a>
+      </div>
+    </div>
+    <div class="pied__bas">
+      <p>Marine &amp; Pierre, le 12 juin 2027 à Sare</p>
+      <ul class="pied__liens">
+        <li><a href="programme.html">Programme</a></li>
+        <li><a href="acces.html">Accès</a></li>
+        <li><a href="hebergements.html">Hébergements</a></li>
+        <li><a href="liste.html">Liste</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="bascule" type="button" aria-pressed="{{animOn}}" onClick="{{basculer}}">
+        <span class="bascule__piste" aria-hidden="true"></span>
+        <span>Animations</span>
+      </button>
+    </div>
+  </div>
+</footer>
+
+</div>
+</template>
+<script src="morphdom.min.js"></script>
+<script src="dc-runtime.js"></script>
+<script>
+class Component extends DCLogic {
+  componentDidMount() {
+    var calme = false;
+    try { calme = window.localStorage.getItem('mp-calme') === '1'; } catch (e) {}
+    try { document.documentElement.classList.toggle('calme', calme); } catch (e) {}
+    this.setState({ calme: calme });
+  }
+  componentWillUnmount() { clearTimeout(this.minuteurCopie); }
+  renderVals() {
+    var s = this.state || {};
+    var self = this;
+    var EUR = ' €';
+    var IBAN = 'FR76 3000 4000 0312 3456 7890 214';
+    var IBAN_MASQUE = 'FR76 •••• •••• •••• •••• •••• 214';
+    var BIC = 'BNPAFRPPXXX';
+    var BIC_MASQUE = '•••• •• •••';
+
+    var defs = [
+      { id: 'furnas', cls: 'a', lavis: 'sauge', timbre: '#9CB394', somme: 80,
+        titre: 'Une nuit à Furnas',
+        texte: 'Bains d’eau chaude volcanique, dans le jardin Terra Nostra.',
+        image: 'assets/illu-acores-1.webp', imageW: 510, imageH: 620, alt: 'Le lac de cratère de Furnas, aux Açores' },
+      { id: 'pico', cls: 'b', lavis: 'rose', timbre: '#DDAFA8', somme: 50,
+        titre: 'La traversée vers Pico',
+        texte: 'Le ferry au lever du jour, face au volcan.',
+        image: 'assets/illu-acores-3.webp', imageW: 506, imageH: 620, alt: 'Le volcan Pico dominant les vignes, aux Açores' },
+      { id: 'baleines', cls: 'c', lavis: 'bleu', timbre: '#A9BCD6', somme: 120,
+        titre: 'Une sortie baleines',
+        texte: 'Au large de São Miguel, avec un biologiste marin.',
+        image: 'assets/illu-acores-2.webp', imageW: 498, imageH: 620, alt: 'Falaises et îlot rocheux au bord de l’océan, aux Açores' },
+      { id: 'diner', cls: 'd', lavis: 'sable', timbre: '#DCC89A', somme: 150,
+        titre: 'Un dîner face à l’Atlantique',
+        texte: 'À Ponta Delgada, le dernier soir.',
+        image: 'assets/illu-acores-4.webp', imageW: 500, imageH: 620, alt: 'Une église blanche au-dessus du port de Ponta Delgada, aux Açores' },
+      { id: 'libre', cls: 'e', lavis: 'sauge', timbre: '#B7C8AE', somme: 0,
+        titre: 'Participation libre',
+        texte: 'Pour tout le reste : la voiture, les cafés, les imprévus.',
+        image: 'assets/vignettes/cartes-postales.webp', imageW: 481, imageH: 441, alt: '' }
+    ];
+
+    var sel = s.sel || '';
+    var choisie = null;
+
+    function defiler() {
+      try {
+        var el = document.getElementById('participation');
+        if (el && el.scrollIntoView) {
+          var calme = document.documentElement.classList.contains('calme');
+          el.scrollIntoView({ behavior: calme ? 'auto' : 'smooth', block: 'nearest' });
+        }
+      } catch (e) {}
+    }
+
+    var cartes = defs.map(function (c) {
+      var on = c.id === sel;
+      if (on) { choisie = c; }
+      return {
+        id: c.id,
+        titre: c.titre,
+        texte: c.texte,
+        montantTxt: c.somme ? c.somme + EUR : 'Montant libre',
+        cls: 'liste-carte liste-carte--' + c.cls + (on ? ' liste-carte--choisie' : ''),
+        image: c.image,
+        imageW: c.imageW,
+        imageH: c.imageH,
+        alt: c.alt,
+        imageCls: c.id === 'libre' ? 'liste-carte__image liste-carte__image--vignette' : 'liste-carte__image',
+        timbreStyle: c.timbre,
+        pressed: on ? 'true' : 'false',
+        aria: 'Participer : ' + c.titre,
+        pick: function () {
+          self.setState({ sel: c.id, montant: c.somme ? String(c.somme) : '' });
+          setTimeout(defiler, 90);
+        }
+      };
+    });
+
+    var brut = s.montant == null ? '' : String(s.montant);
+    var nombre = parseFloat(brut.replace(',', '.'));
+    var valide = isFinite(nombre) && nombre > 0;
+    var aide = '';
+    if (choisie) {
+      if (brut !== '' && !valide) { aide = 'Indiquez un montant en euros, par exemple 40.'; }
+      else if (brut === '') { aide = choisie.somme ? 'Saisissez un montant pour continuer.' : 'Indiquez le montant de votre choix.'; }
+      else { aide = choisie.somme ? 'Montant suggéré : ' + choisie.somme + EUR + '. Vous pouvez le modifier.' : 'Le montant de votre choix, avec nos remerciements.'; }
+    }
+
+    var rib = !!s.rib;
+    var copie = !!s.copie;
+
+    return {
+      menu: !!s.menu,
+      menuEtat: s.menu ? 'true' : 'false',
+      ouvrir: function () { self.setState({ menu: true }); },
+      fermer: function () { self.setState({ menu: false }); },
+      animOn: s.calme ? 'false' : 'true',
+      basculer: function () {
+        var v = !self.state || !self.state.calme;
+        try { document.documentElement.classList.toggle('calme', v); } catch (e) {}
+        try { window.localStorage.setItem('mp-calme', v ? '1' : '0'); } catch (e) {}
+        self.setState({ calme: v });
+      },
+
+      cartes: cartes,
+      choisie: !!choisie,
+      choixTitre: choisie ? choisie.titre : '',
+      choixTexte: choisie ? choisie.texte : '',
+      montant: brut,
+      message: s.message || '',
+      aideMontant: aide,
+      lienDesactive: valide ? 'false' : 'true',
+      saisirMontant: function (e) {
+        var v = '';
+        try { v = String(e.target.value); } catch (x) {}
+        v = v.replace(/[^0-9.,]/g, '');
+        self.setState({ montant: v });
+      },
+      saisirMessage: function (e) {
+        var v = '';
+        try { v = String(e.target.value); } catch (x) {}
+        self.setState({ message: v });
+      },
+      continuer: function (e) {
+        if (!valide && e && e.preventDefault) { e.preventDefault(); }
+      },
+      effacer: function () { self.setState({ sel: '', montant: '', message: '' }); },
+
+      rib: rib,
+      ribEtat: rib ? 'true' : 'false',
+      ribLabel: rib ? 'Masquer le RIB' : 'Afficher le RIB',
+      iban: rib ? IBAN : IBAN_MASQUE,
+      bic: rib ? BIC : BIC_MASQUE,
+      basculerRib: function () {
+        var v = !(self.state && self.state.rib);
+        self.setState({ rib: v, copie: false });
+      },
+      copieLabel: copie ? 'IBAN copié' : 'Copier l’IBAN',
+      copieAnnonce: copie ? 'IBAN copié dans le presse-papiers.' : '',
+      copier: function () {
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            var p = navigator.clipboard.writeText(IBAN);
+            if (p && p.catch) { p.catch(function () {}); }
+          }
+        } catch (e) {}
+        self.setState({ copie: true });
+        clearTimeout(self.minuteurCopie);
+        self.minuteurCopie = setTimeout(function () { self.setState({ copie: false }); }, 2000);
+      }
+    };
+  }
+}
+DC.demarrer(Component);
+</script>
+</body>
+</html>

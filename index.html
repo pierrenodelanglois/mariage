@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F5F4EF">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<title>Marine &amp; Pierre — 12 juin 2027</title>
+<link rel="stylesheet" href="site.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500&amp;family=Gloock&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#4A6645}a:hover{color:#A23B31}
+</style>
+<link rel="icon" href="assets/monogramme.webp">
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-tpl">
+
+
+<div class="page" style="position: relative; min-height: 100vh; overflow-x: clip;">
+
+<svg class="defs" aria-hidden="true" focusable="false">
+  <filter id="fremit" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="2" result="bruit">
+      <animate attributeName="seed" values="2;7;4;9;1;6" dur="0.7s" calcMode="discrete" repeatCount="indefinite"></animate>
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="bruit" scale="3.2" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+  <filter id="grain-pierre" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="11"></feTurbulence>
+    <feColorMatrix type="matrix" values="0 0 0 0 0.42  0 0 0 0 0.35  0 0 0 0 0.26  0 0 0 0.6 0"></feColorMatrix>
+  </filter>
+</svg>
+
+<a class="saut" href="#contenu">Aller au contenu</a>
+
+<header class="wrap">
+  <nav class="nav" aria-label="Navigation principale">
+    <a class="nav__marque" href="index.html">
+      <img class="nav__monogramme" src="assets/monogramme.webp" alt="" width="664" height="583">
+      <span>Marine &amp; Pierre</span>
+    </a>
+    <ul class="nav__liens">
+      <li><a href="programme.html">Programme</a></li>
+      <li><a href="acces.html">Accès</a></li>
+      <li><a href="hebergements.html">Hébergements</a></li>
+      <li><a href="liste.html">Liste de mariage</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li style="margin-left: 12px;"><a class="bouton bouton--plein bouton--petit" href="repondre.html" style="color: #FFF9F4;">Répondre</a></li>
+    </ul>
+    <button class="icone-bouton nav__menu" type="button" aria-expanded="{{menuEtat}}" onClick="{{ouvrir}}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5c5.3-.4 10.7-.3 16 0M4 12.2c5.3-.3 10.7-.2 16 .1M4 16.8c5.3-.4 10.7-.3 16 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+      Menu
+    </button>
+  </nav>
+</header>
+
+<sc-if value="{{menu}}" hint-placeholder-val="{{false}}">
+  <div class="voile-menu" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="voile-menu__tete">
+      <a class="nav__marque" href="index.html"><span>Marine &amp; Pierre</span></a>
+      <button class="icone-bouton" type="button" onClick="{{fermer}}" aria-label="Fermer le menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6.3c4 3.6 8 7.5 12 11.5M18 6c-3.9 4-7.9 7.9-12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+      </button>
+    </div>
+    <ul>
+      <li><a href="index.html" aria-current="page">Accueil</a></li>
+      <li><a href="programme.html">Programme</a></li>
+      <li><a href="acces.html">Accès</a></li>
+      <li><a href="hebergements.html">Hébergements</a></li>
+      <li><a href="liste.html">Liste de mariage</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="voile-menu__pied">
+      <a class="bouton bouton--plein" href="repondre.html" style="color: #FFF9F4;">Répondre à l’invitation</a>
+      <p style="color: #4B5A51; font-size: 0.95rem;">Samedi 12 juin 2027, Guéthary puis Sare</p>
+    </div>
+  </div>
+</sc-if>
+
+<main id="contenu">
+
+  <section class="heros wrap" aria-labelledby="titre-heros">
+    <div class="lavis lavis--bleu" style="left: -10%; top: 2%; width: 52%; height: 58%; opacity: 0.32;"></div>
+    <div class="heros__grille">
+      <div class="heros__texte-bloc">
+        <h1 id="titre-heros" class="heros__noms"><span>Marine</span><span class="heros__esperluette" aria-label="et">&amp;</span><span>Pierre</span></h1>
+        <p class="heros__texte">se marient le <strong>samedi 12 juin 2027</strong> à 15 h, en l’église Saint-Nicolas de Guéthary, puis vous attendent à Sare, au milieu des fougères.</p>
+      </div>
+
+      <figure class="peinture" style="margin-block: 0;">
+        <div class="lavis lavis--rose peinture__lavis-tache"></div>
+        <div class="lavis lavis--sauge peinture__lavis-tache2"></div>
+        <img class="peinture__calque peinture__trait" src="assets/venue-esquisse.webp" alt="" width="700" height="1050">
+        <img class="peinture__fleur" src="assets/vignettes/hortensia-bleu.webp" alt="" width="480" height="520">
+        <img class="peinture__calque peinture__lavis" src="assets/venue-peinture-papier.webp" fetchpriority="high" alt="Aquarelle de la ferme labourdine du domaine Au milieu des fougères, à Sare : façade blanchie à la chaux, colombages et volets rouges, cour dallée, hortensias et fauteuils en rotin." width="1000" height="1500">
+      </figure>
+
+      <div class="heros__actions-bloc">
+        <div class="heros__actions">
+          <a class="bouton bouton--plein" href="repondre.html" style="color: #FFF9F4;">Répondre à l’invitation</a>
+          <a class="bouton bouton--trait" href="programme.html">Voir le programme</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bandeau" aria-labelledby="titre-rebours">
+    <div class="lavis lavis--sable" style="left: -6%; top: 0; width: 66%; height: 100%; opacity: 0.55;"></div>
+    <div class="wrap bandeau__grille">
+      <div class="rebours">
+        <h2 id="titre-rebours" class="sr">Compte à rebours jusqu’au mariage</h2>
+        <p class="rebours__titre" style="font-family: var(--f-display);">Encore</p>
+        <div class="rebours__chiffres" role="timer" aria-live="off">
+          <div class="rebours__bloc">
+            <span class="rebours__nombre fremit">{{jours}}</span>
+            <span class="rebours__unite">{{uJours}}</span>
+          </div>
+          <div class="rebours__bloc rebours__bloc--petit">
+            <span class="rebours__nombre">{{heures}}</span>
+            <span class="rebours__unite">{{uHeures}}</span>
+          </div>
+          <div class="rebours__bloc rebours__bloc--petit">
+            <span class="rebours__nombre">{{minutes}}</span>
+            <span class="rebours__unite">{{uMinutes}}</span>
+          </div>
+        </div>
+        <div class="rebours__note-ligne">
+          <img src="assets/vignettes/cloche.webp" alt="" width="453" height="579">
+          <p class="rebours__note">avant que les cloches de Saint-Nicolas ne sonnent pour nous, le samedi 12 juin 2027 à 15 h.</p>
+        </div>
+        <div class="rebours__actions">
+          <a class="bouton bouton--trait bouton--petit" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Mariage%20de%20Marine%20et%20Pierre&amp;dates=20270612T123000Z/20270613T010000Z&amp;ctz=Europe/Paris&amp;location=%C3%89glise%20Saint-Nicolas%2C%2064210%20Gu%C3%A9thary" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 7.2c5-.4 10-.3 15 0v12.3c-5 .3-10 .3-15 0zM4.6 10.8c5-.3 10-.2 14.8 0M8.5 4.3v4.4M15.6 4.2v4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>Ajouter à mon agenda</a>
+          <sc-if value="{{peutPartager}}" hint-placeholder-val="{{false}}">
+            <button class="bouton bouton--trait bouton--petit" type="button" onClick="{{partager}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.2V4.6M8 8.4c1.4-1.4 2.7-2.7 4-4 1.3 1.3 2.6 2.6 4 4M6 12.6v6.6c4 .3 8 .3 12 0v-6.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>Partager le site</button>
+          </sc-if>
+        </div>
+      </div>
+
+      <aside class="meteo" aria-labelledby="titre-meteo">
+        <div class="meteo__tete">
+          <h2 id="titre-meteo" class="meteo__titre">Le temps, un 12 juin</h2>
+          <img class="meteo__icone" src="assets/vignettes/soleil-nuage.webp" alt="" width="897" height="493">
+        </div>
+        <ul class="meteo__liste">
+          <li><span>L’après-midi</span><span>22°</span></li>
+          <li><span>Le soir, sous la Rhune</span><span>15°</span></li>
+          <li><span>Soleil</span><span>6 h 23 à 21 h 48</span></li>
+          <li><span>L’océan à Guéthary</span><span>18 à 20°</span></li>
+        </ul>
+        <p class="meteo__note">Une averse reste possible en juin : gardez une étole à portée de main. Les prévisions du jour apparaîtront ici dix jours avant.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="lettre" aria-labelledby="titre-lettre">
+    <div class="lavis lavis--rose" style="right: -8%; top: 10%; width: 48%; height: 70%; opacity: 0.38;"></div>
+    <div class="wrap lettre__grille">
+      <figure class="tirage apparait" style="margin: 0;">
+        <span class="tirage__ruban" aria-hidden="true"></span>
+        <img src="assets/couple-a.webp" alt="Marine, en robe rouge, et Pierre, en chapeau de paille, sourient face à la mer." width="900" height="1125" loading="lazy">
+      </figure>
+      <div>
+        <h2 id="titre-lettre" class="lettre__titre">Chers vous,</h2>
+        <div class="lettre__corps">
+          <p>Il y a des lieux qui ressemblent à ce qu’on voudrait vivre. Pour nous, c’est le Pays basque : l’océan à Guéthary le matin, la Rhune dans la brume le soir, et une vieille ferme labourdine au milieu des fougères.</p>
+          <p>Nous avons hâte de vous y retrouver pour nous dire oui, puis pour danser tard sous les tilleuls.</p>
+          <p>Vous trouverez ici de quoi préparer votre venue. Si une question reste sans réponse, écrivez-nous.</p>
+        </div>
+        <p class="lettre__signature">Marine &amp; Pierre</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="voyage" id="voyage" aria-labelledby="titre-voyage">
+    <div class="voyage__pin">
+      <div class="wrap voyage__tete">
+        <div>
+          <h2 id="titre-voyage" class="voyage__titre">Un samedi, de l’océan à la montagne</h2>
+          <p class="voyage__intro">La cérémonie sur la côte, la fête dans les collines : suivez la journée.</p>
+        </div>
+        <div class="voyage__fleches">
+          <button class="icone-bouton" type="button" aria-label="Moment précédent" aria-controls="voyage-piste" onClick="{{precedent}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12.4c-4.6-.4-9.4-.3-14 0M10.4 6.6C8.4 8.4 6.6 10.2 5 12.2c1.7 1.8 3.5 3.7 5.2 5.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <button class="icone-bouton" type="button" aria-label="Moment suivant" aria-controls="voyage-piste" onClick="{{suivant}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.4c4.6-.4 9.4-.3 14 0M13.6 6.6c2 1.8 3.8 3.6 5.4 5.6-1.7 1.8-3.5 3.7-5.2 5.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+        </div>
+      </div>
+      <div class="voyage__piste" id="voyage-piste" tabindex="0" aria-label="Les quatre temps de la journée, à faire défiler">
+
+        <article class="voyage__etape" aria-labelledby="v-1">
+          <figure class="voyage__scene">
+            <img class="voyage__illu" src="assets/illu-eglise.webp" alt="L’église Saint-Nicolas de Guéthary sur sa falaise, au-dessus de l’océan" width="1600" height="619" loading="lazy">
+            <img class="voyage__vignette" src="assets/vignettes/alliances.webp" alt="" width="465" height="468" style="right: 1%; bottom: -10%; width: 19%;">
+          </figure>
+          <div class="voyage__texte">
+            <p class="voyage__heure">15 h</p>
+            <h3 id="v-1">Le oui, face à l’océan</h3>
+            <p>Messe de mariage sous les galeries de bois de l’église Saint-Nicolas, à deux pas de la mer.</p>
+            <p class="voyage__lieu">Église Saint-Nicolas, Guéthary</p>
+          </div>
+        </article>
+
+        <article class="voyage__etape" aria-labelledby="v-2">
+          <figure class="voyage__scene">
+            <img class="voyage__illu" src="assets/illu-rhune.webp" alt="La Rhune au-dessus des collines vertes de Sare" width="1600" height="664" loading="lazy">
+            <img class="voyage__vignette voyage__bus" src="assets/vignettes/navette.webp" alt="" width="493" height="444" style="left: 4%; bottom: -8%; width: 22%;">
+          </figure>
+          <div class="voyage__texte">
+            <p class="voyage__heure">16 h 30</p>
+            <h3 id="v-2">La route des collines</h3>
+            <p>Les navettes partent du parvis : trente-cinq minutes de virages jusqu’à Sare, au pied de la Rhune.</p>
+            <p class="voyage__lieu">Départ du parvis de l’église</p>
+          </div>
+        </article>
+
+        <article class="voyage__etape" aria-labelledby="v-3">
+          <figure class="voyage__scene">
+            <div class="lavis lavis--sauge" style="left: 4%; top: 6%; width: 92%; height: 90%; opacity: 0.75;"></div>
+            <img class="voyage__vignette" src="assets/vignettes/tilleul.webp" alt="" width="684" height="505" style="left: 2%; top: 2%; width: 40%;">
+            <img class="voyage__vignette" src="assets/vignettes/txakoli.webp" alt="" width="441" height="567" style="left: 42%; top: 8%; width: 21%;">
+            <img class="voyage__vignette" src="assets/vignettes/pelote.webp" alt="" width="463" height="456" style="right: 3%; bottom: 0; width: 28%;">
+            <img class="voyage__vignette" src="assets/vignettes/pintxos.webp" alt="" width="492" height="456" style="left: 18%; bottom: -6%; width: 22%;">
+          </figure>
+          <div class="voyage__texte">
+            <p class="voyage__heure">17 h 30</p>
+            <h3 id="v-3">Au milieu des fougères</h3>
+            <p>Txakoli et pintxos sous les tilleuls du parc, et une partie de pelote pour les plus vaillants.</p>
+            <p class="voyage__lieu">Le domaine, Sare</p>
+          </div>
+        </article>
+
+        <article class="voyage__etape" aria-labelledby="v-4">
+          <figure class="voyage__scene">
+            <div class="lavis lavis--lilas" style="left: 30%; top: -4%; width: 50%; height: 100%; opacity: 0.6;"></div>
+            <img class="voyage__vignette" src="assets/vignettes/lune-etoiles.webp" alt="" width="781" height="450" style="right: 2%; top: 0; width: 34%;">
+            <img class="voyage__vignette" src="assets/vignettes/table.webp" alt="" width="465" height="597" style="left: 6%; bottom: -4%; width: 26%;">
+            <img class="voyage__vignette" src="assets/vignettes/espadrilles.webp" alt="" width="442" height="573" style="left: 40%; bottom: -2%; width: 21%;">
+          </figure>
+          <div class="voyage__texte">
+            <p class="voyage__heure">20 h</p>
+            <h3 id="v-4">Sous la Rhune, jusqu’au bout de la nuit</h3>
+            <p>Dîner sur la terrasse face aux Pyrénées, puis le bal à 23 h. Fandango obligatoire.</p>
+            <p class="voyage__lieu">Terrasse du domaine</p>
+          </div>
+        </article>
+
+      </div>
+      <div class="wrap voyage__pied">
+        <ol class="voyage__progres" aria-hidden="true">
+          <li>15 h, Guéthary</li><li>16 h 30, la route</li><li>17 h 30, le domaine</li><li>20 h, la nuit</li>
+        </ol>
+        <a class="bouton bouton--trait" href="programme.html">Le programme heure par heure</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="index zone-deroule" aria-labelledby="titre-index">
+    <div class="wrap index__grille">
+      <div>
+        <h2 id="titre-index" class="index__titre">Pour préparer votre venue</h2>
+        <img class="index__fougere-img pousse-fougere" src="assets/vignettes/fougere-droite.webp" alt="" width="505" height="615" loading="lazy">
+      </div>
+      <ul class="index__liste">
+        <li><a href="programme.html"><span class="index__nom">Programme</span><span class="index__desc">Chaque moment de la journée, à l’heure près, et les navettes.</span><svg class="index__fleche" viewBox="0 0 28 28" aria-hidden="true"><path d="M4 14.5c6-.6 13-.2 19-.4M17 8.5c2.4 2 4.3 3.7 6 5.6-1.9 1.7-3.8 3.6-5.6 5.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a></li>
+        <li><a href="acces.html"><span class="index__nom">Accès</span><span class="index__desc">Rejoindre Guéthary, puis Sare, en voiture, en train ou en avion.</span><svg class="index__fleche" viewBox="0 0 28 28" aria-hidden="true"><path d="M4 14.5c6-.6 13-.2 19-.4M17 8.5c2.4 2 4.3 3.7 6 5.6-1.9 1.7-3.8 3.6-5.6 5.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a></li>
+        <li><a href="hebergements.html"><span class="index__nom">Hébergements</span><span class="index__desc">Nos adresses dans le village de Sare, à quelques minutes du domaine.</span><svg class="index__fleche" viewBox="0 0 28 28" aria-hidden="true"><path d="M4 14.5c6-.6 13-.2 19-.4M17 8.5c2.4 2 4.3 3.7 6 5.6-1.9 1.7-3.8 3.6-5.6 5.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a></li>
+        <li><a href="liste.html"><span class="index__nom">Liste de mariage</span><span class="index__desc">Pour celles et ceux qui souhaitent participer à notre voyage.</span><svg class="index__fleche" viewBox="0 0 28 28" aria-hidden="true"><path d="M4 14.5c6-.6 13-.2 19-.4M17 8.5c2.4 2 4.3 3.7 6 5.6-1.9 1.7-3.8 3.6-5.6 5.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a></li>
+        <li><a href="repondre.html"><span class="index__nom">Répondre</span><span class="index__desc">Votre présence, vos allergies, et un petit sondage pour le vendredi soir.</span><svg class="index__fleche" viewBox="0 0 28 28" aria-hidden="true"><path d="M4 14.5c6-.6 13-.2 19-.4M17 8.5c2.4 2 4.3 3.7 6 5.6-1.9 1.7-3.8 3.6-5.6 5.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a></li>
+        <li><a href="contact.html"><span class="index__nom">Contact</span><span class="index__desc">Nos témoins et nous, pour toutes vos questions.</span><svg class="index__fleche" viewBox="0 0 28 28" aria-hidden="true"><path d="M4 14.5c6-.6 13-.2 19-.4M17 8.5c2.4 2 4.3 3.7 6 5.6-1.9 1.7-3.8 3.6-5.6 5.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<nav class="barre" aria-label="Navigation rapide">
+    <a class="barre__lien" href="programme.html"><img src="assets/vignettes/calendrier.webp" alt="" width="426" height="517"><span>Programme</span></a>
+    <a class="barre__lien" href="acces.html"><img src="assets/vignettes/carte.webp" alt="" width="462" height="450"><span>Accès</span></a>
+    <a class="barre__lien barre__lien--rsvp" href="repondre.html"><img src="assets/vignettes/enveloppe.webp" alt="" width="472" height="376"><span>Répondre</span></a>
+    <a class="barre__lien" href="hebergements.html"><img src="assets/vignettes/cle.webp" alt="" width="438" height="522"><span>Dormir</span></a>
+    <button class="barre__lien" type="button" onClick="{{ouvrir}}" aria-expanded="{{menuEtat}}" aria-label="Plus de pages : accueil, liste de mariage, contact"><svg viewBox="0 0 26 30" aria-hidden="true"><circle cx="5" cy="17" r="2.2" fill="currentColor"></circle><circle cx="13" cy="16.6" r="2.2" fill="currentColor"></circle><circle cx="21" cy="17.2" r="2.2" fill="currentColor"></circle></svg><span>Plus</span></button>
+</nav>
+
+<footer class="pied">
+  <div class="lavis lavis--sauge pied__lavis"></div>
+  <div class="wrap">
+    <div class="pied__appel">
+      <div>
+        <h2 class="pied__titre">Serez-vous des nôtres ?</h2>
+        <p class="pied__texte">Merci de nous répondre avant le 15 mars 2027 : le traiteur a besoin de connaître le nombre de couverts et vos éventuelles allergies.</p>
+      </div>
+      <div class="pied__actions">
+        <img class="pied__couronne" src="assets/monogramme-couronne.webp" alt="Monogramme de Marine et Pierre, couronne de fougères et d’hortensias" width="879" height="800">
+        <a class="bouton bouton--plein" href="repondre.html" style="color: #FFF9F4;">Répondre à l’invitation</a>
+      </div>
+    </div>
+    <div class="pied__bas">
+      <p>Marine &amp; Pierre, le 12 juin 2027 à Sare</p>
+      <ul class="pied__liens">
+        <li><a href="programme.html">Programme</a></li>
+        <li><a href="acces.html">Accès</a></li>
+        <li><a href="hebergements.html">Hébergements</a></li>
+        <li><a href="liste.html">Liste</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="bascule" type="button" aria-pressed="{{animOn}}" onClick="{{basculer}}">
+        <span class="bascule__piste" aria-hidden="true"></span>
+        <span>Animations</span>
+      </button>
+    </div>
+  </div>
+</footer>
+
+</div>
+</template>
+<script src="morphdom.min.js"></script>
+<script src="dc-runtime.js"></script>
+<script>
+class Component extends DCLogic {
+  componentDidMount() {
+    var calme = false;
+    try { calme = window.localStorage.getItem('mp-calme') === '1'; } catch (e) {}
+    try { document.documentElement.classList.toggle('calme', calme); } catch (e) {}
+    var partage = false;
+    try { partage = typeof navigator.share === 'function'; } catch (e) {}
+    this.setState({ calme: calme, now: Date.now(), peutPartager: partage });
+    var self = this;
+    this.minuteur = setInterval(function () { self.setState({ now: Date.now() }); }, 15000);
+  }
+  componentWillUnmount() { clearInterval(this.minuteur); }
+  renderVals() {
+    var s = this.state || {};
+    var self = this;
+    var now = s.now || Date.now();
+    var cible = Date.UTC(2027, 5, 12, 13, 0, 0);
+    var d = Math.max(0, cible - now);
+    var j = Math.floor(d / 864e5); d -= j * 864e5;
+    var h = Math.floor(d / 36e5); d -= h * 36e5;
+    var m = Math.floor(d / 6e4);
+    var jour = '';
+    try { jour = new Date(now).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }); } catch (e) {}
+    jour = 'Aujourd’hui, ' + jour;
+    return {
+      jours: String(j),
+      heures: String(h).padStart(2, '0'),
+      minutes: String(m).padStart(2, '0'),
+      uJours: j > 1 ? 'jours' : 'jour',
+      uHeures: h > 1 ? 'heures' : 'heure',
+      uMinutes: m > 1 ? 'minutes' : 'minute',
+      aujourdhui: jour,
+      menu: !!s.menu,
+      menuEtat: s.menu ? 'true' : 'false',
+      ouvrir: function () { self.setState({ menu: true }); },
+      peutPartager: !!s.peutPartager,
+      partager: function () {
+        try { navigator.share({ title: 'Marine & Pierre, 12 juin 2027', text: 'Le site du mariage de Marine et Pierre', url: window.location.href }).catch(function () {}); } catch (e) {}
+      },
+      precedent: function () { try { var p = document.getElementById('voyage-piste'); p.scrollBy({ left: -p.clientWidth * 0.85, behavior: 'smooth' }); } catch (e) {} },
+      suivant: function () { try { var p = document.getElementById('voyage-piste'); p.scrollBy({ left: p.clientWidth * 0.85, behavior: 'smooth' }); } catch (e) {} },
+      fermer: function () { self.setState({ menu: false }); },
+      animOn: s.calme ? 'false' : 'true',
+      basculer: function () {
+        var v = !self.state || !self.state.calme;
+        try { document.documentElement.classList.toggle('calme', v); } catch (e) {}
+        try { window.localStorage.setItem('mp-calme', v ? '1' : '0'); } catch (e) {}
+        self.setState({ calme: v });
+      }
+    };
+  }
+}
+DC.demarrer(Component);
+</script>
+</body>
+</html>

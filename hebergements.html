@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F5F4EF">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<title>Hébergements à Sare — Marine &amp; Pierre</title>
+<link rel="stylesheet" href="site.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500&amp;family=Gloock&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#4A6645}a:hover{color:#A23B31}
+
+.heb .entete__intro{max-width:46ch}
+
+.heb__deco{display:block;width:100%;max-width:200px;height:auto;margin-inline:auto}
+.heb__illu{margin:8px 0 40px}
+.heb__illu img{display:block;width:100%;height:auto}
+
+.heb__note{position:relative;max-width:640px;padding:clamp(20px,3vw,36px) clamp(0px,2vw,24px) clamp(20px,3vw,36px) 0}
+.heb__note-texte{font-size:var(--t-l);line-height:1.45;max-width:34ch}
+.heb__code{font-family:var(--f-display);font-size:1.12em;letter-spacing:.04em;white-space:nowrap}
+.heb__note-actions{margin-top:20px}
+
+.heb__domaine{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(20px,4vw,64px);align-items:baseline}
+.heb__domaine p{font-size:var(--t-l);line-height:1.45;color:var(--encre-douce);max-width:44ch}
+
+.heb__liste{list-style:none;margin:36px 0 0;padding:0}
+.heb__ligne{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,4fr) minmax(0,4fr);grid-template-areas:"nom desc pratique";gap:clamp(20px,3vw,48px);padding-block:32px 36px;align-items:start}
+.heb__nom{grid-area:nom}
+.heb__desc{grid-area:desc;color:var(--encre-douce);max-width:40ch}
+.heb__pratique{grid-area:pratique}
+.heb__titre{font-size:2rem;line-height:1.05}
+.heb__type{margin-top:8px;color:var(--encre-douce);font-style:italic}
+.heb__pratique dl{margin:0;display:grid;grid-template-columns:6.2rem minmax(0,1fr);gap:6px 12px;font-size:1rem}
+.heb__pratique dt{color:var(--encre-douce)}
+.heb__pratique dd{margin:0}
+.heb__pratique .bouton{margin-top:18px}
+
+.heb__carte-defil{overflow-x:auto;margin-top:36px}
+.heb__carte{margin:0}
+.heb__carte svg{display:block;width:100%;min-width:680px;height:auto}
+.heb__carte figcaption{margin-top:12px;font-size:.95rem;font-style:italic;color:var(--encre-douce)}
+
+.heb__fin{font-size:var(--t-l);line-height:1.4;max-width:40ch}
+
+@media (max-width:959px){
+  .heb__ligne{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"nom pratique" "desc pratique"}
+}
+@media (max-width:860px){
+  .heb__domaine{grid-template-columns:minmax(0,1fr);gap:12px}
+  .heb__ligne{grid-template-columns:minmax(0,1fr);grid-template-areas:"nom" "desc" "pratique";gap:14px;padding-block:26px 30px}
+  .heb__pratique{margin-top:6px}
+  .heb__titre{font-size:1.75rem}
+}
+</style>
+<link rel="icon" href="assets/monogramme.webp">
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-tpl">
+
+
+<div class="page heb" style="position: relative; min-height: 100vh; overflow-x: clip;">
+
+<svg class="defs" aria-hidden="true" focusable="false">
+  <filter id="fremit" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="2" result="bruit">
+      <animate attributeName="seed" values="2;7;4;9;1;6" dur="0.7s" calcMode="discrete" repeatCount="indefinite"></animate>
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="bruit" scale="3.2" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+  <filter id="grain-pierre" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="11"></feTurbulence>
+    <feColorMatrix type="matrix" values="0 0 0 0 0.42  0 0 0 0 0.35  0 0 0 0 0.26  0 0 0 0.6 0"></feColorMatrix>
+  </filter>
+</svg>
+
+<a class="saut" href="#contenu">Aller au contenu</a>
+
+<header class="wrap">
+  <nav class="nav" aria-label="Navigation principale">
+    <a class="nav__marque" href="index.html">
+      <img class="nav__monogramme" src="assets/monogramme.webp" alt="" width="664" height="583">
+      <span>Marine &amp; Pierre</span>
+    </a>
+    <ul class="nav__liens">
+      <li><a href="programme.html">Programme</a></li>
+      <li><a href="acces.html">Accès</a></li>
+      <li><a href="hebergements.html" aria-current="page">Hébergements</a></li>
+      <li><a href="liste.html">Liste de mariage</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li style="margin-left: 12px;"><a class="bouton bouton--plein bouton--petit" href="repondre.html" style="color: #FFF9F4;">Répondre</a></li>
+    </ul>
+    <button class="icone-bouton nav__menu" type="button" aria-expanded="{{menuEtat}}" onClick="{{ouvrir}}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5c5.3-.4 10.7-.3 16 0M4 12.2c5.3-.3 10.7-.2 16 .1M4 16.8c5.3-.4 10.7-.3 16 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+      Menu
+    </button>
+  </nav>
+</header>
+
+<sc-if value="{{menu}}" hint-placeholder-val="{{false}}">
+  <div class="voile-menu" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="voile-menu__tete">
+      <a class="nav__marque" href="index.html"><span>Marine &amp; Pierre</span></a>
+      <button class="icone-bouton" type="button" onClick="{{fermer}}" aria-label="Fermer le menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6.3c4 3.6 8 7.5 12 11.5M18 6c-3.9 4-7.9 7.9-12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+      </button>
+    </div>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="programme.html">Programme</a></li>
+      <li><a href="acces.html">Accès</a></li>
+      <li><a href="hebergements.html" aria-current="page">Hébergements</a></li>
+      <li><a href="liste.html">Liste de mariage</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="voile-menu__pied">
+      <a class="bouton bouton--plein" href="repondre.html" style="color: #FFF9F4;">Répondre à l’invitation</a>
+      <p style="color: #4B5A51; font-size: 0.95rem;">Samedi 12 juin 2027, Guéthary puis Sare</p>
+    </div>
+  </div>
+</sc-if>
+
+<main id="contenu">
+
+  <section class="entete" aria-labelledby="titre-page">
+    <div class="lavis lavis--rose" style="right: -6%; top: -8%; width: 42%; height: 96%; opacity: 0.34;"></div>
+    <div class="wrap entete__grille">
+      <div>
+        <h1 id="titre-page" class="entete__titre">Dormir à Sare</h1>
+        <p class="entete__intro">Nous avons choisi de loger tout le monde dans le village : le domaine est à 2 minutes en voiture du bourg, et à 10 minutes à pied par l’ancienne voie romaine. Réservez tôt, car juin est la haute saison.</p>
+      </div>
+      <div class="entete__deco">
+        <img class="heb__deco" src="assets/vignettes/cle.webp" alt="" width="200" height="238" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <figure class="heb__illu">
+      <img src="assets/illu-sare.webp" alt="La place de Sare, ses platanes et son fronton, à l’aquarelle" width="1600" height="633" loading="lazy">
+    </figure>
+  </div>
+
+  <section class="section" aria-label="Code de réservation" style="padding-block: clamp(8px, 2vw, 24px) clamp(40px, 6vw, 80px);">
+    <div class="wrap">
+      <div class="heb__note">
+        <div class="lavis lavis--sable" style="left: -8%; top: -14%; width: 112%; height: 130%; opacity: 0.75;"></div>
+        <p class="heb__note-texte">Nous avons réservé 12 chambres à l’Hôtel Arraya jusqu’au 1<sup>er</sup> mars 2027 : indiquez le code <span class="heb__code">MARINEPIERRE27</span> en réservant.</p>
+        <div class="heb__note-actions">
+          <button class="bouton bouton--trait bouton--petit" type="button" onClick="{{copier}}">{{copieLabel}}</button>
+          <span class="sr" role="status">{{copieMsg}}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="titre-domaine" style="padding-block: clamp(24px, 4vw, 56px);">
+    <div class="lavis lavis--bleu" style="right: -9%; top: -30%; width: 40%; height: 170%; opacity: 0.3;"></div>
+    <div class="wrap heb__domaine">
+      <h2 id="titre-domaine" class="section__titre">Au domaine</h2>
+      <p>Le domaine compte 8 appartements et 2 suites, soit 54 couchages, dont un appartement adapté aux personnes à mobilité réduite. Nous les gardons d’abord pour les familles ; si vous souhaitez y dormir, <a href="contact.html">écrivez-nous</a>.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="titre-village">
+    <div class="wrap">
+      <h2 id="titre-village" class="section__titre">Dans le village</h2>
+      <p class="section__intro">Sept adresses à moins de dix minutes du domaine, du grand hôtel de famille à la chambre d’hôtes sous les poutres. Les prix sont indicatifs : vérifiez-les sur le site de chaque établissement.</p>
+
+      <ul class="heb__liste">
+        <li>
+          <hr class="filet">
+          <div class="heb__ligne">
+            <div class="heb__nom">
+              <h3 class="heb__titre">Hôtel Arraya</h3>
+              <p class="heb__type">Hôtel, quatre étoiles</p>
+            </div>
+            <p class="heb__desc">Ancien relais de pèlerins de Compostelle du XVIe siècle, hôtel de famille depuis 1951. Quinze chambres, une piscine chauffée et un restaurant.</p>
+            <div class="heb__pratique">
+              <dl>
+                <dt>Quartier</dt><dd>Place du village, le bourg</dd>
+                <dt>Distance</dt><dd>environ 3 min en voiture</dd>
+                <dt>Prix</dt><dd>à partir de 180 € la nuit</dd>
+              </dl>
+              <a class="bouton bouton--trait bouton--petit" href="https://www.arraya.com" target="_blank" rel="noopener">Voir le site<span class="sr"> de l’Hôtel Arraya, s’ouvre dans un nouvel onglet</span></a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <hr class="filet">
+          <div class="heb__ligne">
+            <div class="heb__nom">
+              <h3 class="heb__titre">Hôtel Lastiry</h3>
+              <p class="heb__type">Hôtel, trois étoiles</p>
+            </div>
+            <p class="heb__desc">Treize chambres décorées une à une, dont une accessible aux personnes à mobilité réduite. Sur la place, à deux pas de l’église.</p>
+            <div class="heb__pratique">
+              <dl>
+                <dt>Quartier</dt><dd>Place du village, le bourg</dd>
+                <dt>Distance</dt><dd>environ 3 min en voiture</dd>
+                <dt>Prix</dt><dd>à partir de 59 € la nuit</dd>
+              </dl>
+              <a class="bouton bouton--trait bouton--petit" href="https://www.hotel-lastiry-sare.com" target="_blank" rel="noopener">Voir le site<span class="sr"> de l’Hôtel Lastiry, s’ouvre dans un nouvel onglet</span></a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <hr class="filet">
+          <div class="heb__ligne">
+            <div class="heb__nom">
+              <h3 class="heb__titre">Logis Hôtel Baratxartea</h3>
+              <p class="heb__type">Hôtel-restaurant</p>
+            </div>
+            <p class="heb__desc">Vingt chambres et une table qui fait la part belle à la cuisine basque. Pratique pour un dîner du vendredi sans reprendre la voiture.</p>
+            <div class="heb__pratique">
+              <dl>
+                <dt>Quartier</dt><dd>Ihalar</dd>
+                <dt>Distance</dt><dd>environ 5 min en voiture</dd>
+                <dt>Prix</dt><dd>à partir de 75 € la nuit</dd>
+              </dl>
+              <a class="bouton bouton--trait bouton--petit" href="http://www.hotel-baratxartea.com" target="_blank" rel="noopener">Voir le site<span class="sr"> du Logis Hôtel Baratxartea, s’ouvre dans un nouvel onglet</span></a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <hr class="filet">
+          <div class="heb__ligne">
+            <div class="heb__nom">
+              <h3 class="heb__titre">Hôtel Pikassaria</h3>
+              <p class="heb__type">Hôtel, deux étoiles</p>
+            </div>
+            <p class="heb__desc">Un hôtel simple avec restaurant et terrasse, dans le quartier de Lehenbiscay. Il n’a pas de site : le plus simple est de téléphoner.</p>
+            <div class="heb__pratique">
+              <dl>
+                <dt>Quartier</dt><dd>Lehenbiscay</dd>
+                <dt>Distance</dt><dd>environ 6 min en voiture</dd>
+                <dt>Prix</dt><dd>de 60 à 100 € la nuit</dd>
+                <dt>Téléphone</dt><dd>05 59 54 21 51</dd>
+              </dl>
+              <a class="bouton bouton--trait bouton--petit" href="tel:+33559542151">Appeler<span class="sr"> l’Hôtel Pikassaria au 05 59 54 21 51</span></a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <hr class="filet">
+          <div class="heb__ligne">
+            <div class="heb__nom">
+              <h3 class="heb__titre">Olhabidea</h3>
+              <p class="heb__type">Chambres d’hôtes</p>
+            </div>
+            <p class="heb__desc">Cinq chambres dans une demeure labourdine du XVIe siècle, petit-déjeuner compris. Deux nuits minimum.</p>
+            <div class="heb__pratique">
+              <dl>
+                <dt>Quartier</dt><dd>Sainte-Catherine</dd>
+                <dt>Distance</dt><dd>environ 4 min en voiture</dd>
+                <dt>Prix</dt><dd>125 € la nuit pour deux, petit-déjeuner compris</dd>
+              </dl>
+              <a class="bouton bouton--trait bouton--petit" href="http://www.olhabidea.fr" target="_blank" rel="noopener">Voir le site<span class="sr"> d’Olhabidea, s’ouvre dans un nouvel onglet</span></a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <hr class="filet">
+          <div class="heb__ligne">
+            <div class="heb__nom">
+              <h3 class="heb__titre">Maison Dominxenea</h3>
+              <p class="heb__type">Chambres d’hôtes</p>
+            </div>
+            <p class="heb__desc">Trois chambres dans une maison basque de 1505, avec un jardin qui regarde la Rhune.</p>
+            <div class="heb__pratique">
+              <dl>
+                <dt>Quartier</dt><dd>Ihalar</dd>
+                <dt>Distance</dt><dd>environ 5 min en voiture</dd>
+                <dt>Prix</dt><dd>sur demande</dd>
+              </dl>
+              <a class="bouton bouton--trait bouton--petit" href="https://www.dominxenea.fr" target="_blank" rel="noopener">Voir le site<span class="sr"> de la Maison Dominxenea, s’ouvre dans un nouvel onglet</span></a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <hr class="filet">
+          <div class="heb__ligne">
+            <div class="heb__nom">
+              <h3 class="heb__titre">VVF Sare La Rhune</h3>
+              <p class="heb__type">Village vacances</p>
+            </div>
+            <p class="heb__desc">Idéal pour les familles et les groupes d’amis qui veulent rester ensemble, avec de la place pour les enfants.</p>
+            <div class="heb__pratique">
+              <dl>
+                <dt>Quartier</dt><dd>Au pied de la Rhune</dd>
+                <dt>Distance</dt><dd>environ 4 min en voiture</dd>
+                <dt>Prix</dt><dd>autour de 85 € la nuit</dd>
+              </dl>
+              <a class="bouton bouton--trait bouton--petit" href="https://www.vvf.fr" target="_blank" rel="noopener">Voir le site<span class="sr"> du VVF Sare La Rhune, s’ouvre dans un nouvel onglet</span></a>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <hr class="filet">
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="titre-plan">
+    <div class="lavis lavis--sauge" style="left: -10%; top: 8%; width: 46%; height: 70%; opacity: 0.3;"></div>
+    <div class="wrap">
+      <h2 id="titre-plan" class="section__titre">Le village en un coup d’œil</h2>
+      <p class="section__intro">Les quartiers où dormir, et le chemin qui mène au domaine.</p>
+
+      <div class="heb__carte-defil" role="region" aria-label="Plan schématique du village, à faire défiler horizontalement sur un petit écran" tabindex="0">
+        <figure class="heb__carte apparait">
+          <svg viewBox="0 0 900 520" role="img" aria-labelledby="plan-titre plan-desc">
+            <title id="plan-titre">Plan schématique du village de Sare</title>
+            <desc id="plan-desc">La Rhune se dresse au nord-ouest. Le bourg, avec les hôtels Arraya et Lastiry, est relié par la voie romaine, à 10 minutes à pied, au domaine Au milieu des fougères, à l’est. Les quartiers Ihalar au nord, Sainte-Catherine à l’ouest et Lehenbiscay au sud complètent le plan.</desc>
+
+            <path d="M250 232C320 172 470 152 620 162C760 172 850 250 840 360C830 460 700 490 540 480C400 470 280 482 230 412C200 352 210 272 250 232z" fill="#C8D5BC" fill-opacity="0.5"></path>
+            <ellipse cx="404" cy="330" rx="92" ry="52" transform="rotate(-8 404 330)" fill="#EBC9C4" fill-opacity="0.55"></ellipse>
+            <ellipse cx="572" cy="210" rx="96" ry="46" transform="rotate(6 572 210)" fill="#C2CFE0" fill-opacity="0.6"></ellipse>
+
+            <path d="M20 202C70 172 96 152 122 124C142 102 154 92 174 82L176 66L188 66L190 82C216 94 242 122 272 152C298 176 322 190 346 202" fill="#C2CFE0" fill-opacity="0.38" stroke="#4B5A51" stroke-opacity="0.6" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M232 166C262 150 290 156 318 172C336 182 352 190 372 198" fill="none" stroke="#4B5A51" stroke-opacity="0.4" stroke-width="1.2" stroke-linecap="round"></path>
+            <path d="M120 176c14-12 24-24 36-34M150 190c18-16 28-30 40-44" fill="none" stroke="#4B5A51" stroke-opacity="0.3" stroke-width="1" stroke-linecap="round"></path>
+            <text x="182" y="48" text-anchor="middle" font-family="Alegreya Sans, sans-serif" font-size="17" font-style="italic" fill="#4B5A51">La Rhune</text>
+
+            <path d="M818 108V58M809 72l9-14l9 14" fill="none" stroke="#22302A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <text x="818" y="44" text-anchor="middle" font-family="Alegreya Sans, sans-serif" font-size="15" fill="#22302A">N</text>
+
+            <path d="M236 290C290 292 350 300 392 316M408 322C450 274 500 238 550 212M410 332C432 380 452 410 470 432" fill="none" stroke="#22302A" stroke-opacity="0.35" stroke-width="1.2" stroke-linecap="round"></path>
+
+            <path d="M412 328C490 362 610 300 726 348" fill="none" stroke="#22302A" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="0.5 8"></path>
+            <text x="556" y="300" text-anchor="middle" transform="rotate(-3 556 300)" font-family="Alegreya Sans, sans-serif" font-size="16" font-style="italic" fill="#22302A">voie romaine, 10 min à pied</text>
+
+            <circle cx="232" cy="288" r="5.5" fill="#22302A"></circle>
+            <text x="216" y="246" font-family="Alegreya Sans, sans-serif" font-size="18" font-weight="500" fill="#22302A">Sainte-Catherine</text>
+            <text x="216" y="266" font-family="Alegreya Sans, sans-serif" font-size="15" fill="#22302A">Olhabidea</text>
+
+            <circle cx="396" cy="318" r="5.5" fill="#22302A"></circle>
+            <circle cx="412" cy="327" r="5.5" fill="#22302A"></circle>
+            <text x="398" y="358" text-anchor="end" font-family="Alegreya Sans, sans-serif" font-size="18" font-weight="500" fill="#22302A">Le bourg</text>
+            <text x="398" y="378" text-anchor="end" font-family="Alegreya Sans, sans-serif" font-size="15" fill="#22302A">Arraya, Lastiry</text>
+
+            <circle cx="556" cy="204" r="5.5" fill="#22302A"></circle>
+            <circle cx="572" cy="214" r="5.5" fill="#22302A"></circle>
+            <text x="594" y="206" font-family="Alegreya Sans, sans-serif" font-size="18" font-weight="500" fill="#22302A">Ihalar</text>
+            <text x="594" y="226" font-family="Alegreya Sans, sans-serif" font-size="15" fill="#22302A">Baratxartea, Dominxenea</text>
+
+            <circle cx="472" cy="440" r="5.5" fill="#22302A"></circle>
+            <text x="490" y="438" font-family="Alegreya Sans, sans-serif" font-size="18" font-weight="500" fill="#22302A">Lehenbiscay</text>
+            <text x="490" y="458" font-family="Alegreya Sans, sans-serif" font-size="15" fill="#22302A">Pikassaria</text>
+
+            <path d="M792 306l-8 22h16zM792 328v8M818 330l-8 22h16zM818 352v8M690 404l-7 20h14zM690 424v7" fill="#C8D5BC" fill-opacity="0.9" stroke="#22302A" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"></path>
+
+            <ellipse cx="744" cy="352" rx="21" ry="19" fill="none" stroke="#A23B31" stroke-opacity="0.55" stroke-width="1.2"></ellipse>
+            <circle cx="744" cy="352" r="13" fill="#A23B31"></circle>
+            <path d="M737 356l7-8l7 8v6h-14z" fill="none" stroke="#FFF9F4" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+            <text x="744" y="398" text-anchor="middle" font-family="Alegreya Sans, sans-serif" font-size="18" font-weight="500" fill="#22302A">Au milieu des fougères</text>
+            <text x="744" y="418" text-anchor="middle" font-family="Alegreya Sans, sans-serif" font-size="15" fill="#22302A">le domaine</text>
+
+            <circle cx="46" cy="492" r="5.5" fill="#22302A"></circle>
+            <text x="60" y="497" font-family="Alegreya Sans, sans-serif" font-size="15" fill="#22302A">Hébergement</text>
+            <circle cx="186" cy="492" r="7" fill="#A23B31"></circle>
+            <text x="200" y="497" font-family="Alegreya Sans, sans-serif" font-size="15" fill="#22302A">Le domaine</text>
+          </svg>
+          <figcaption>Plan schématique, distances approximatives</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-label="Pour venir" style="padding-block: clamp(16px, 3vw, 40px) clamp(32px, 5vw, 64px);">
+    <div class="wrap">
+      <p class="heb__fin">Vous cherchez la route, le train ou l’avion ? Voyez <a href="acces.html">comment venir à Sare</a>.</p>
+    </div>
+  </section>
+
+</main>
+
+<nav class="barre" aria-label="Navigation rapide">
+    <a class="barre__lien" href="programme.html"><img src="assets/vignettes/calendrier.webp" alt="" width="426" height="517"><span>Programme</span></a>
+    <a class="barre__lien" href="acces.html"><img src="assets/vignettes/carte.webp" alt="" width="462" height="450"><span>Accès</span></a>
+    <a class="barre__lien barre__lien--rsvp" href="repondre.html"><img src="assets/vignettes/enveloppe.webp" alt="" width="472" height="376"><span>Répondre</span></a>
+    <a class="barre__lien" href="hebergements.html" aria-current="page"><img src="assets/vignettes/cle.webp" alt="" width="438" height="522"><span>Dormir</span></a>
+    <button class="barre__lien" type="button" onClick="{{ouvrir}}" aria-expanded="{{menuEtat}}" aria-label="Plus de pages : accueil, liste de mariage, contact"><svg viewBox="0 0 26 30" aria-hidden="true"><circle cx="5" cy="17" r="2.2" fill="currentColor"></circle><circle cx="13" cy="16.6" r="2.2" fill="currentColor"></circle><circle cx="21" cy="17.2" r="2.2" fill="currentColor"></circle></svg><span>Plus</span></button>
+</nav>
+
+<footer class="pied">
+  <div class="lavis lavis--sauge pied__lavis"></div>
+  <div class="wrap">
+    <div class="pied__appel">
+      <div>
+        <h2 class="pied__titre">Serez-vous des nôtres ?</h2>
+        <p class="pied__texte">Merci de nous répondre avant le 15 mars 2027 : le traiteur a besoin de connaître le nombre de couverts et vos éventuelles allergies.</p>
+      </div>
+      <div class="pied__actions">
+        <a class="bouton bouton--plein" href="repondre.html" style="color: #FFF9F4;">Répondre à l’invitation</a>
+      </div>
+    </div>
+    <div class="pied__bas">
+      <p>Marine &amp; Pierre, le 12 juin 2027 à Sare</p>
+      <ul class="pied__liens">
+        <li><a href="programme.html">Programme</a></li>
+        <li><a href="acces.html">Accès</a></li>
+        <li><a href="hebergements.html">Hébergements</a></li>
+        <li><a href="liste.html">Liste</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="bascule" type="button" aria-pressed="{{animOn}}" onClick="{{basculer}}">
+        <span class="bascule__piste" aria-hidden="true"></span>
+        <span>Animations</span>
+      </button>
+    </div>
+  </div>
+</footer>
+
+</div>
+</template>
+<script src="morphdom.min.js"></script>
+<script src="dc-runtime.js"></script>
+<script>
+class Component extends DCLogic {
+  componentDidMount() {
+    var calme = false;
+    try { calme = window.localStorage.getItem('mp-calme') === '1'; } catch (e) {}
+    try { document.documentElement.classList.toggle('calme', calme); } catch (e) {}
+    this.setState({ calme: calme });
+  }
+  componentWillUnmount() { clearTimeout(this.tCopie); }
+  renderVals() {
+    var s = this.state || {};
+    var self = this;
+    return {
+      menu: !!s.menu,
+      menuEtat: s.menu ? 'true' : 'false',
+      ouvrir: function () { self.setState({ menu: true }); },
+      fermer: function () { self.setState({ menu: false }); },
+      copieLabel: s.copie ? 'Code copié' : 'Copier le code',
+      copieMsg: s.copie ? 'Code MARINEPIERRE27 copié dans le presse-papiers' : '',
+      copier: function () {
+        var ok = function () {
+          self.setState({ copie: true });
+          clearTimeout(self.tCopie);
+          self.tCopie = setTimeout(function () { self.setState({ copie: false }); }, 2400);
+        };
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText('MARINEPIERRE27').then(ok, function () {});
+          }
+        } catch (e) {}
+      },
+      animOn: s.calme ? 'false' : 'true',
+      basculer: function () {
+        var v = !self.state || !self.state.calme;
+        try { document.documentElement.classList.toggle('calme', v); } catch (e) {}
+        try { window.localStorage.setItem('mp-calme', v ? '1' : '0'); } catch (e) {}
+        self.setState({ calme: v });
+      }
+    };
+  }
+}
+DC.demarrer(Component);
+</script>
+</body>
+</html>

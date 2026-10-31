@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F5F4EF">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<title>Accès — Marine &amp; Pierre</title>
+<link rel="stylesheet" href="site.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500&amp;family=Gloock&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#4A6645}a:hover{color:#A23B31}
+
+/* Aquarelles */
+.acces-deco { display: block; width: 100%; max-width: 220px; height: auto; margin-inline: auto; }
+.acces-illu { margin: 8px 0 40px; }
+.acces-illu img { display: block; width: 100%; height: auto; }
+.acces-lieu__tete { display: flex; align-items: center; gap: 16px; }
+.acces-lieu__tete img { flex: none; display: block; width: 64px; height: auto; }
+.acces-ligne { display: flex; align-items: center; gap: 16px; }
+.acces-ligne img { flex: none; display: block; width: 64px; height: auto; }
+.acces-table tbody th, .acces-table tbody td { vertical-align: middle; }
+.acces-navettes { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: center; }
+.acces-navettes__img { display: block; width: 180px; max-width: 100%; height: auto; }
+.acces-navettes .section__intro { margin-top: 12px; }
+
+/* Les deux lieux */
+.acces-lieux { display: grid; grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr); gap: clamp(32px, 5vw, 88px); }
+.acces-regle { width: 1px; align-self: stretch; background: var(--filet); }
+.acces-lieu h2 { font-size: var(--t-3xl); }
+.acces-lieu__nom { margin-top: 14px; font-style: italic; font-size: var(--t-l); line-height: 1.3; }
+.acces-lieu address { margin-top: 6px; font-style: normal; color: var(--encre-douce); }
+.acces-infos { margin: 28px 0 0; padding: 0; border-top: 1px solid var(--filet); }
+.acces-infos > div { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 4px 20px; padding: 14px 0; border-bottom: 1px solid var(--filet); }
+.acces-infos dt { color: var(--encre-douce); font-weight: 500; }
+.acces-infos dd { margin: 0; }
+.acces-boutons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+
+/* La carte */
+.acces-carte { position: relative; margin: 0; }
+.acces-carte__cadre { overflow-x: auto; border: 1px solid var(--filet); border-radius: 4px; background: rgba(255, 253, 249, 0.62); -webkit-overflow-scrolling: touch; }
+.acces-carte svg { display: block; width: 100%; height: auto; }
+.acces-carte figcaption { margin-top: 14px; max-width: 62ch; font-style: italic; color: var(--encre-douce); }
+.acces-glisse { display: none; margin-top: 8px; font-size: .95rem; color: var(--encre-douce); }
+.acces-route { stroke-dasharray: 1; stroke-dashoffset: 0; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    html:not(.calme) .acces-route { animation: acces-trace linear both; animation-timeline: --carte; animation-range: entry 30% cover 55%; }
+    html:not(.calme) .acces-carte { view-timeline: --carte block; }
+  }
+}
+@keyframes acces-trace { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+/* Le tableau */
+.acces-table { overflow-x: auto; margin-top: 36px; -webkit-overflow-scrolling: touch; }
+.acces-table table { width: 100%; min-width: 700px; border-collapse: collapse; font-feature-settings: "kern", "liga", "lnum", "tnum"; }
+.acces-table th, .acces-table td { padding: 18px 20px 18px 0; text-align: left; vertical-align: baseline; border-bottom: 1px solid var(--filet); }
+.acces-table thead th { padding-bottom: 12px; font-weight: 500; font-size: 1rem; color: var(--encre-douce); border-bottom: 1px solid rgba(34, 48, 42, .4); }
+.acces-table tbody th { font-family: var(--f-display); font-weight: 400; font-size: 1.2rem; line-height: 1.2; }
+.acces-table .acces-num { text-align: right; white-space: nowrap; padding-right: 28px; }
+.acces-table th:last-child, .acces-table td:last-child { padding-left: 28px; padding-right: 0; color: var(--encre-douce); }
+.acces-table thead th:last-child { padding-left: 28px; }
+
+/* Les navettes */
+.acces-trajets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 5vw, 80px); margin-top: 36px; }
+.acces-trajets > div { padding-top: 20px; border-top: 1px solid rgba(34, 48, 42, .4); }
+.acces-trajets h3 { font-size: var(--t-xl); }
+.acces-trajets__lieu { margin-top: 6px; color: var(--encre-douce); }
+.acces-heures { display: flex; flex-wrap: wrap; gap: 8px clamp(20px, 3vw, 40px); margin: 22px 0 0; padding: 0; list-style: none; }
+.acces-heures li { font-family: var(--f-display); font-size: var(--t-3xl); line-height: 1; white-space: nowrap; font-feature-settings: "kern", "lnum"; }
+.acces-reponse { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; margin-top: 52px; }
+.acces-reponse p { font-size: var(--t-l); max-width: 30ch; line-height: 1.35; }
+
+@media (max-width: 900px) {
+  .acces-carte svg { min-width: 820px; }
+  .acces-glisse { display: block; }
+}
+@media (max-width: 860px) {
+  .acces-navettes { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .acces-navettes__img { width: 150px; }
+  .acces-lieux { grid-template-columns: minmax(0, 1fr); }
+  .acces-regle { width: auto; height: 1px; align-self: auto; }
+}
+@media (max-width: 520px) {
+  .acces-infos > div { grid-template-columns: minmax(0, 1fr); }
+  .acces-trajets { grid-template-columns: minmax(0, 1fr); }
+  .acces-heures li { font-size: var(--t-2xl); }
+}
+</style>
+<link rel="icon" href="assets/monogramme.webp">
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-tpl">
+
+
+<div class="page" style="position: relative; min-height: 100vh; overflow-x: clip;">
+
+<svg class="defs" aria-hidden="true" focusable="false">
+  <filter id="fremit" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="2" result="bruit">
+      <animate attributeName="seed" values="2;7;4;9;1;6" dur="0.7s" calcMode="discrete" repeatCount="indefinite"></animate>
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="bruit" scale="3.2" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+  <filter id="grain-pierre" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="11"></feTurbulence>
+    <feColorMatrix type="matrix" values="0 0 0 0 0.42  0 0 0 0 0.35  0 0 0 0 0.26  0 0 0 0.6 0"></feColorMatrix>
+  </filter>
+</svg>
+
+<a class="saut" href="#contenu">Aller au contenu</a>
+
+<header class="wrap">
+  <nav class="nav" aria-label="Navigation principale">
+    <a class="nav__marque" href="index.html">
+      <img class="nav__monogramme" src="assets/monogramme.webp" alt="" width="664" height="583">
+      <span>Marine &amp; Pierre</span>
+    </a>
+    <ul class="nav__liens">
+      <li><a href="programme.html">Programme</a></li>
+      <li><a href="acces.html" aria-current="page">Accès</a></li>
+      <li><a href="hebergements.html">Hébergements</a></li>
+      <li><a href="liste.html">Liste de mariage</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li style="margin-left: 12px;"><a class="bouton bouton--plein bouton--petit" href="repondre.html" style="color: #FFF9F4;">Répondre</a></li>
+    </ul>
+    <button class="icone-bouton nav__menu" type="button" aria-expanded="{{menuEtat}}" onClick="{{ouvrir}}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5c5.3-.4 10.7-.3 16 0M4 12.2c5.3-.3 10.7-.2 16 .1M4 16.8c5.3-.4 10.7-.3 16 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+      Menu
+    </button>
+  </nav>
+</header>
+
+<sc-if value="{{menu}}" hint-placeholder-val="{{false}}">
+  <div class="voile-menu" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="voile-menu__tete">
+      <a class="nav__marque" href="index.html"><span>Marine &amp; Pierre</span></a>
+      <button class="icone-bouton" type="button" onClick="{{fermer}}" aria-label="Fermer le menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6.3c4 3.6 8 7.5 12 11.5M18 6c-3.9 4-7.9 7.9-12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+      </button>
+    </div>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="programme.html">Programme</a></li>
+      <li><a href="acces.html" aria-current="page">Accès</a></li>
+      <li><a href="hebergements.html">Hébergements</a></li>
+      <li><a href="liste.html">Liste de mariage</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="voile-menu__pied">
+      <a class="bouton bouton--plein" href="repondre.html" style="color: #FFF9F4;">Répondre à l’invitation</a>
+      <p style="color: #4B5A51; font-size: 0.95rem;">Samedi 12 juin 2027, Guéthary puis Sare</p>
+    </div>
+  </div>
+</sc-if>
+
+<main id="contenu">
+
+  <section class="entete" aria-labelledby="titre-page">
+    <div class="lavis lavis--bleu" style="left: -9%; top: 6%; width: 46%; height: 82%; opacity: 0.34;"></div>
+    <div class="wrap entete__grille">
+      <div>
+        <h1 id="titre-page" class="entete__titre">De l’océan à la montagne</h1>
+        <p class="entete__intro">La cérémonie a lieu sur la côte, à Guéthary ; la fête, à 23 km de là, dans les collines de Sare, au pied de la Rhune.</p>
+      </div>
+      <div class="entete__deco">
+        <img class="acces-deco" src="assets/vignettes/carte.webp" alt="" width="220" height="214" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <figure class="acces-illu">
+      <img src="assets/illu-rhune.webp" alt="La Rhune au-dessus des collines de Sare, à l’aquarelle" width="1600" height="664" loading="lazy">
+    </figure>
+  </div>
+
+  <section class="section" aria-label="L’église et le domaine">
+    <div class="lavis lavis--rose" style="right: -10%; top: 6%; width: 46%; height: 62%; opacity: 0.3;"></div>
+    <div class="wrap acces-lieux">
+
+      <article class="acces-lieu" aria-labelledby="titre-eglise">
+        <div class="acces-lieu__tete">
+          <img src="assets/vignettes/eglise.webp" alt="" width="64" height="87" loading="lazy">
+          <h2 id="titre-eglise">L’église</h2>
+        </div>
+        <p class="acces-lieu__nom">Église Saint-Nicolas</p>
+        <address>rue de l’Église<br>64210 Guéthary</address>
+        <dl class="acces-infos">
+          <div><dt>Rendez-vous</dt><dd>14 h 30 sur le parvis. La cérémonie commence à 15 h.</dd></div>
+          <div><dt>Stationnement</dt><dd>Très peu de places autour de l’église. Le parking de la gare de Guéthary est à 8 min à pied.</dd></div>
+          <div><dt>Conseil</dt><dd>Le covoiturage est conseillé.</dd></div>
+        </dl>
+        <div class="acces-boutons">
+          <a class="bouton bouton--trait bouton--petit" href="https://www.google.com/maps/search/?api=1&amp;query=%C3%89glise%20Saint-Nicolas%20Gu%C3%A9thary" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.2c-3.6-4.2-6.3-7.4-6.3-11a6.3 6.3 0 0 1 12.6 0c0 3.6-2.7 6.8-6.3 11z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path><circle cx="12" cy="10" r="2.2" fill="none" stroke="currentColor" stroke-width="1.5"></circle></svg>
+            Itinéraire Google Maps<span class="sr"> (s’ouvre dans un nouvel onglet)</span>
+          </a>
+          <a class="bouton bouton--trait bouton--petit" href="https://waze.com/ul?q=Eglise%20Saint-Nicolas%20Guethary" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.8 12.4L19.2 5l-6.6 14.2-1.5-5.6z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"></path></svg>
+            Ouvrir dans Waze<span class="sr"> (s’ouvre dans un nouvel onglet)</span>
+          </a>
+        </div>
+      </article>
+
+      <div class="acces-regle" aria-hidden="true"></div>
+
+      <article class="acces-lieu" aria-labelledby="titre-domaine">
+        <div class="acces-lieu__tete">
+          <img src="assets/vignettes/cle.webp" alt="" width="64" height="76" loading="lazy">
+          <h2 id="titre-domaine">Le domaine</h2>
+        </div>
+        <p class="acces-lieu__nom">Au milieu des fougères</p>
+        <address>Ihartze artea, chemin de Lehetchipia<br>64310 Sare</address>
+        <dl class="acces-infos">
+          <div><dt>Arrivée</dt><dd>À partir de 17 h 15.</dd></div>
+          <div><dt>Stationnement</dt><dd>Parking privé de 50 places dans le domaine.</dd></div>
+          <div><dt>Depuis le bourg</dt><dd>À 2 min de Sare en voiture, 10 min à pied par l’ancienne voie romaine.</dd></div>
+        </dl>
+        <div class="acces-boutons">
+          <a class="bouton bouton--trait bouton--petit" href="https://www.google.com/maps/search/?api=1&amp;query=Au%20milieu%20des%20foug%C3%A8res%20Sare" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.2c-3.6-4.2-6.3-7.4-6.3-11a6.3 6.3 0 0 1 12.6 0c0 3.6-2.7 6.8-6.3 11z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path><circle cx="12" cy="10" r="2.2" fill="none" stroke="currentColor" stroke-width="1.5"></circle></svg>
+            Itinéraire Google Maps<span class="sr"> (s’ouvre dans un nouvel onglet)</span>
+          </a>
+          <a class="bouton bouton--trait bouton--petit" href="https://waze.com/ul?q=Au%20milieu%20des%20fougeres%20Sare" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.8 12.4L19.2 5l-6.6 14.2-1.5-5.6z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"></path></svg>
+            Ouvrir dans Waze<span class="sr"> (s’ouvre dans un nouvel onglet)</span>
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="titre-carte" style="padding-top: clamp(16px, 3vw, 40px);">
+    <div class="lavis lavis--sauge" style="left: -12%; bottom: -6%; width: 44%; height: 50%; opacity: 0.26;"></div>
+    <div class="wrap">
+      <h2 id="titre-carte" class="sr">La route entre l’église et le domaine</h2>
+      <figure class="acces-carte">
+        <div class="acces-carte__cadre" tabindex="0" role="region" aria-label="Carte schématique de l’itinéraire, défilement horizontal sur petit écran">
+          <svg viewBox="0 0 1000 600" role="img" aria-labelledby="acces-carte-titre acces-carte-desc">
+            <title id="acces-carte-titre">Carte schématique de l’itinéraire</title>
+            <desc id="acces-carte-desc">De l’église de Guéthary, sur la côte atlantique, la route passe par Saint-Jean-de-Luz et Ascain avant d’atteindre Sare et le domaine, au pied de la Rhune. Biarritz est au nord, Hendaye et la frontière espagnole au sud.</desc>
+            <defs>
+              <linearGradient id="acces-g-fond" gradientUnits="userSpaceOnUse" x1="0" y1="210" x2="0" y2="440">
+                <stop offset="0" stop-color="#C8D5BC" stop-opacity=".95"></stop>
+                <stop offset=".65" stop-color="#C8D5BC" stop-opacity=".75"></stop>
+                <stop offset="1" stop-color="#C8D5BC" stop-opacity="0"></stop>
+              </linearGradient>
+              <linearGradient id="acces-g-avant" gradientUnits="userSpaceOnUse" x1="0" y1="318" x2="0" y2="440">
+                <stop offset="0" stop-color="#9CB394" stop-opacity=".78"></stop>
+                <stop offset="1" stop-color="#9CB394" stop-opacity="0"></stop>
+              </linearGradient>
+              <linearGradient id="acces-g-collines" gradientUnits="userSpaceOnUse" x1="0" y1="384" x2="0" y2="442">
+                <stop offset="0" stop-color="#C8D5BC" stop-opacity=".8"></stop>
+                <stop offset="1" stop-color="#C8D5BC" stop-opacity="0"></stop>
+              </linearGradient>
+            </defs>
+
+            <!-- Espagne : lavis de sable sous la frontière -->
+            <path d="M330 568C410 548 470 566 540 552C610 538 650 528 720 522C800 515 880 500 1000 508V600H334Z" fill="#E9DDC0" fill-opacity=".34"></path>
+
+            <!-- Collines et Rhune -->
+            <path d="M300 440C336 410 372 396 412 402C440 406 462 420 480 440Z" fill="url(#acces-g-collines)"></path>
+            <path d="M800 440C840 404 888 388 934 398C964 404 988 420 1000 430V440Z" fill="url(#acces-g-collines)"></path>
+            <path d="M452 432C486 408 520 384 552 346C578 314 604 270 634 226L640 216L646 226C664 246 682 266 700 290C724 322 748 358 778 392C792 408 806 420 826 434Z" fill="url(#acces-g-fond)"></path>
+            <path d="M400 436C452 410 506 404 556 378C594 358 616 336 646 322C676 338 700 354 734 382C770 408 820 424 880 436Z" fill="url(#acces-g-avant)"></path>
+            <path d="M452 432C486 408 520 384 552 346C578 314 604 270 634 226L640 216L646 226C664 246 682 266 700 290C724 322 748 358 778 392C792 408 806 420 826 434" fill="none" stroke="#22302A" stroke-width="1.2" stroke-opacity=".7" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M400 436C452 410 506 404 556 378C594 358 616 336 646 322C676 338 700 354 734 382C770 408 820 424 880 436" fill="none" stroke="#22302A" stroke-width="1.1" stroke-opacity=".42" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M640 216V203M635 208H645" fill="none" stroke="#22302A" stroke-width="1.2" stroke-linecap="round"></path>
+            <path d="M594 300c8 6 14 12 18 22M660 262c-4 12-10 20-18 28M690 330c-6 8-10 14-12 22" fill="none" stroke="#4A6645" stroke-width="1" stroke-linecap="round" stroke-opacity=".4"></path>
+            <path d="M860 426l5-10 5 10M874 430l4-8 4 8M372 420l4-9 4 9M386 424l3-7 3 7" fill="none" stroke="#4A6645" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".6"></path>
+
+            <!-- L'Atlantique -->
+            <path d="M0 0H128C150 22 182 34 176 66C172 90 152 104 170 128C186 150 214 150 222 178C228 202 206 222 218 250C228 272 252 280 250 304C248 322 236 336 256 352C276 368 284 392 270 414C258 434 262 456 280 474C296 490 292 510 300 528C306 544 318 556 326 572C332 584 330 592 334 600H0Z" fill="#C2CFE0" fill-opacity=".6"></path>
+            <path d="M128 0C150 22 182 34 176 66C172 90 152 104 170 128C186 150 214 150 222 178C228 202 206 222 218 250C228 272 252 280 250 304C248 322 236 336 256 352C276 368 284 392 270 414C258 434 262 456 280 474C296 490 292 510 300 528C306 544 318 556 326 572C332 584 330 592 334 600" fill="none" stroke="#C2CFE0" stroke-opacity=".55" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M128 0C150 22 182 34 176 66C172 90 152 104 170 128C186 150 214 150 222 178C228 202 206 222 218 250C228 272 252 280 250 304C248 322 236 336 256 352C276 368 284 392 270 414C258 434 262 456 280 474C296 490 292 510 300 528C306 544 318 556 326 572C332 584 330 592 334 600" fill="none" stroke="#22302A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M128 0C150 22 182 34 176 66C172 90 152 104 170 128C186 150 214 150 222 178C228 202 206 222 218 250C228 272 252 280 250 304C248 322 236 336 256 352C276 368 284 392 270 414C258 434 262 456 280 474C296 490 292 510 300 528C306 544 318 556 326 572C332 584 330 592 334 600" fill="none" stroke="#22302A" stroke-width="1" stroke-opacity=".32" stroke-dasharray="36 12 16 10" stroke-linecap="round" transform="translate(-9 3)"></path>
+            <g fill="none" stroke="#4B5A51" stroke-width="1.2" stroke-linecap="round" stroke-opacity=".42">
+              <path d="M40 48q8-7 16 0t16 0t16 0"></path>
+              <path d="M30 124q8-7 16 0t16 0t16 0"></path>
+              <path d="M84 206q8-7 16 0t16 0"></path>
+              <path d="M22 262q8-7 16 0t16 0"></path>
+              <path d="M118 402q8-7 16 0t16 0t16 0"></path>
+              <path d="M62 484q8-7 16 0t16 0"></path>
+              <path d="M170 560q8-7 16 0t16 0"></path>
+            </g>
+            <text x="40" y="330" font-family="Alegreya Sans, sans-serif" font-style="italic" font-size="18" fill="#4B5A51" transform="rotate(-6 40 330)">l’océan Atlantique</text>
+
+            <!-- Frontière -->
+            <path d="M330 568C410 548 470 566 540 552C610 538 650 528 720 522C800 515 880 500 1000 508" fill="none" stroke="#4B5A51" stroke-width="1.6" stroke-dasharray="2 7" stroke-linecap="round" stroke-opacity=".6"></path>
+            <text x="900" y="558" text-anchor="middle" font-family="Alegreya Sans, sans-serif" font-style="italic" font-size="18" fill="#4B5A51">Espagne</text>
+
+            <!-- Itinéraire -->
+            <path class="acces-route" pathLength="1" d="M252 192C258 218 288 230 284 262C281 290 260 304 254 334C250 362 316 372 372 384C418 394 442 376 478 392C518 410 566 438 616 436C650 434 676 456 712 446C746 437 770 424 798 418" fill="none" stroke="#EBC9C4" stroke-opacity=".5" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path class="acces-route" pathLength="1" d="M252 192C258 218 288 230 284 262C281 290 260 304 254 334C250 362 316 372 372 384C418 394 442 376 478 392C518 410 566 438 616 436C650 434 676 456 712 446C746 437 770 424 798 418" fill="none" stroke="#A23B31" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+
+            <!-- Villes -->
+            <g>
+              <circle cx="186" cy="70" r="4" fill="#F5F4EF" stroke="#22302A" stroke-width="1.4"></circle>
+              <text x="200" y="76" font-family="Alegreya Sans, sans-serif" font-size="16" fill="#4B5A51">Biarritz</text>
+              <g transform="translate(284 68) rotate(-25)" fill="none" stroke="#4B5A51" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M-11 0C-6-2 4-2 11 0C4 2-6 2-11 0Z"></path>
+                <path d="M-1-1.5L-6-10L-3-10L4-1.5M-1 1.5L-6 10L-3 10L4 1.5M-9-1L-12-5M-9 1L-12 5"></path>
+              </g>
+
+              <circle cx="254" cy="334" r="5" fill="#F5F4EF" stroke="#22302A" stroke-width="1.5"></circle>
+              <text x="276" y="326" font-family="Alegreya Sans, sans-serif" font-size="18" fill="#22302A">Saint-Jean-de-Luz</text>
+
+              <circle cx="478" cy="392" r="5" fill="#F5F4EF" stroke="#22302A" stroke-width="1.5"></circle>
+              <text x="462" y="428" text-anchor="middle" font-family="Alegreya Sans, sans-serif" font-size="18" fill="#22302A">Ascain</text>
+
+              <circle cx="712" cy="446" r="5" fill="#F5F4EF" stroke="#22302A" stroke-width="1.5"></circle>
+              <text x="712" y="476" text-anchor="middle" font-family="Alegreya Sans, sans-serif" font-size="18" fill="#22302A">Sare</text>
+
+              <circle cx="312" cy="530" r="4" fill="#F5F4EF" stroke="#22302A" stroke-width="1.4"></circle>
+              <text x="326" y="536" font-family="Alegreya Sans, sans-serif" font-size="16" fill="#4B5A51">Hendaye</text>
+              <g transform="translate(410 530)" fill="none" stroke="#4B5A51" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M-9-7C-9-10 9-10 9-7V4H-9Z"></path>
+                <path d="M-9-2H9"></path>
+                <circle cx="-5" cy="7.5" r="1.8"></circle>
+                <circle cx="5" cy="7.5" r="1.8"></circle>
+              </g>
+            </g>
+
+            <text x="640" y="190" text-anchor="middle" font-family="Alegreya Sans, sans-serif" font-style="italic" font-size="18" fill="#4B5A51">La Rhune, 905 m</text>
+
+            <!-- Les deux points clés -->
+            <g transform="translate(250 164) scale(1.15)">
+              <circle r="22" fill="#F5F4EF" fill-opacity=".9"></circle>
+              <path d="M-11 11C-9-1-8-12 0-13C8-12 9-1 11 11Z" fill="#EBC9C4" stroke="#22302A" stroke-width="1.4" stroke-linejoin="round"></path>
+              <path d="M-14 11.5H14M0-13V-18M-2.5-18.5H2.5M-3.2 15a3.2 3.2 0 0 0 6.4 0" fill="none" stroke="#22302A" stroke-width="1.4" stroke-linecap="round"></path>
+            </g>
+            <text x="282" y="160" font-family="Gloock, Georgia, serif" font-size="22" fill="#22302A">Guéthary</text>
+            <text x="282" y="182" font-family="Alegreya Sans, sans-serif" font-style="italic" font-size="16" fill="#4B5A51">la cérémonie, 15 h</text>
+
+            <g transform="translate(812 400)">
+              <circle r="23" fill="#F5F4EF" fill-opacity=".9"></circle>
+              <path d="M-13 4.5V-6L0-17L13-6V4.5Z" fill="#A23B31" stroke="#82291F" stroke-width="1.2" stroke-linejoin="round"></path>
+              <path d="M6-12V-18.5H10V-9" fill="#A23B31" stroke="#82291F" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"></path>
+              <path d="M-3 4.5V-3.5H3V4.5Z" fill="#F5F4EF"></path>
+            </g>
+            <text x="842" y="400" font-family="Gloock, Georgia, serif" font-size="22" fill="#22302A">Au milieu</text>
+            <text x="842" y="426" font-family="Gloock, Georgia, serif" font-size="22" fill="#22302A">des fougères</text>
+            <text x="842" y="450" font-family="Alegreya Sans, sans-serif" font-style="italic" font-size="16" fill="#4B5A51">la réception, dès 17 h 15</text>
+          </svg>
+        </div>
+        <p class="acces-glisse">Faites glisser la carte pour suivre toute la route.</p>
+        <figcaption>Carte schématique, 23 km et une trentaine de minutes entre l’église et le domaine.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="titre-loin">
+    <div class="wrap">
+      <h2 id="titre-loin" class="section__titre">Venir de plus loin</h2>
+      <p class="section__intro">Trajets estimés jusqu’à Sare. Sur la côte, prévoyez un peu plus en saison.</p>
+      <div class="acces-table" tabindex="0" role="region" aria-label="Tableau des trajets jusqu’à Sare, défilement horizontal sur petit écran">
+        <table>
+          <caption class="sr">Distance et durée en voiture jusqu’à Sare depuis les principaux points d’arrivée</caption>
+          <thead>
+            <tr>
+              <th scope="col">Point de départ</th>
+              <th scope="col" class="acces-num">Distance jusqu’à Sare</th>
+              <th scope="col" class="acces-num">En voiture</th>
+              <th scope="col">Bon à savoir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><span class="acces-ligne"><img src="assets/vignettes/avion.webp" alt="" width="64" height="41" loading="lazy"><span>Aéroport de Biarritz (BIQ)</span></span></th>
+              <td class="acces-num">30 km</td>
+              <td class="acces-num">40 min</td>
+              <td>Loueurs de voitures sur place.</td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="acces-ligne"><img src="assets/vignettes/train.webp" alt="" width="64" height="62" loading="lazy"><span>Gare de Saint-Jean-de-Luz–Ciboure</span></span></th>
+              <td class="acces-num">19 km</td>
+              <td class="acces-num">27 min</td>
+              <td>TGV direct depuis Paris en 4 h 30 environ.</td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="acces-ligne"><img src="assets/vignettes/train.webp" alt="" width="64" height="62" loading="lazy"><span>Gare d’Hendaye</span></span></th>
+              <td class="acces-num">28 km</td>
+              <td class="acces-num">36 min</td>
+              <td>Correspondances vers l’Espagne.</td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="acces-ligne"><img src="assets/vignettes/voiture.webp" alt="" width="64" height="47" loading="lazy"><span>Église de Guéthary</span></span></th>
+              <td class="acces-num">23 km</td>
+              <td class="acces-num">31 min</td>
+              <td>Trajet entre la cérémonie et le domaine.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="titre-navettes">
+    <div class="lavis lavis--sable" style="left: -8%; bottom: 0; width: 56%; height: 78%; opacity: 0.4;"></div>
+    <div class="wrap">
+      <div class="acces-navettes">
+        <img class="acces-navettes__img" src="assets/vignettes/navette.webp" alt="" width="180" height="162" loading="lazy">
+        <div>
+          <h2 id="titre-navettes" class="section__titre">Les navettes</h2>
+          <p class="section__intro">Pour que personne n’ait à conduire, des navettes relient l’église au domaine dans l’après-midi, puis ramènent chacun vers le bourg de Sare et Saint-Jean-de-Luz en fin de nuit. Elles sont offertes par les mariés.</p>
+        </div>
+      </div>
+      <div class="acces-trajets">
+        <div>
+          <h3>Aller</h3>
+          <p class="acces-trajets__lieu">Du parvis de l’église au domaine</p>
+          <ul class="acces-heures">
+            <li>16 h 30</li>
+            <li>16 h 50</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Retour</h3>
+          <p class="acces-trajets__lieu">Du domaine au bourg de Sare et à Saint-Jean-de-Luz</p>
+          <ul class="acces-heures">
+            <li>1 h</li>
+            <li>2 h</li>
+            <li>3 h</li>
+          </ul>
+        </div>
+      </div>
+      <div class="acces-reponse">
+        <p>Indiquez-nous vos trajets en répondant à l’invitation.</p>
+        <a class="bouton bouton--plein" href="repondre.html" style="color: #FFF9F4;">Répondre à l’invitation</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="barre" aria-label="Navigation rapide">
+    <a class="barre__lien" href="programme.html"><img src="assets/vignettes/calendrier.webp" alt="" width="426" height="517"><span>Programme</span></a>
+    <a class="barre__lien" href="acces.html" aria-current="page"><img src="assets/vignettes/carte.webp" alt="" width="462" height="450"><span>Accès</span></a>
+    <a class="barre__lien barre__lien--rsvp" href="repondre.html"><img src="assets/vignettes/enveloppe.webp" alt="" width="472" height="376"><span>Répondre</span></a>
+    <a class="barre__lien" href="hebergements.html"><img src="assets/vignettes/cle.webp" alt="" width="438" height="522"><span>Dormir</span></a>
+    <button class="barre__lien" type="button" onClick="{{ouvrir}}" aria-expanded="{{menuEtat}}" aria-label="Plus de pages : accueil, liste de mariage, contact"><svg viewBox="0 0 26 30" aria-hidden="true"><circle cx="5" cy="17" r="2.2" fill="currentColor"></circle><circle cx="13" cy="16.6" r="2.2" fill="currentColor"></circle><circle cx="21" cy="17.2" r="2.2" fill="currentColor"></circle></svg><span>Plus</span></button>
+</nav>
+
+<footer class="pied">
+  <div class="lavis lavis--sauge pied__lavis"></div>
+  <div class="wrap">
+    <div class="pied__appel">
+      <div>
+        <h2 class="pied__titre">Serez-vous des nôtres ?</h2>
+        <p class="pied__texte">Merci de nous répondre avant le 15 mars 2027 : le traiteur a besoin de connaître le nombre de couverts et vos éventuelles allergies.</p>
+      </div>
+      <div class="pied__actions">
+        <a class="bouton bouton--plein" href="repondre.html" style="color: #FFF9F4;">Répondre à l’invitation</a>
+      </div>
+    </div>
+    <div class="pied__bas">
+      <p>Marine &amp; Pierre, le 12 juin 2027 à Sare</p>
+      <ul class="pied__liens">
+        <li><a href="programme.html">Programme</a></li>
+        <li><a href="acces.html">Accès</a></li>
+        <li><a href="hebergements.html">Hébergements</a></li>
+        <li><a href="liste.html">Liste</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="bascule" type="button" aria-pressed="{{animOn}}" onClick="{{basculer}}">
+        <span class="bascule__piste" aria-hidden="true"></span>
+        <span>Animations</span>
+      </button>
+    </div>
+  </div>
+</footer>
+
+</div>
+</template>
+<script src="morphdom.min.js"></script>
+<script src="dc-runtime.js"></script>
+<script>
+class Component extends DCLogic {
+  componentDidMount() {
+    var calme = false;
+    try { calme = window.localStorage.getItem('mp-calme') === '1'; } catch (e) {}
+    try { document.documentElement.classList.toggle('calme', calme); } catch (e) {}
+    this.setState({ calme: calme });
+  }
+  renderVals() {
+    var s = this.state || {};
+    var self = this;
+    return {
+      menu: !!s.menu,
+      menuEtat: s.menu ? 'true' : 'false',
+      ouvrir: function () { self.setState({ menu: true }); },
+      fermer: function () { self.setState({ menu: false }); },
+      animOn: s.calme ? 'false' : 'true',
+      basculer: function () {
+        var v = !self.state || !self.state.calme;
+        try { document.documentElement.classList.toggle('calme', v); } catch (e) {}
+        try { window.localStorage.setItem('mp-calme', v ? '1' : '0'); } catch (e) {}
+        self.setState({ calme: v });
+      }
+    };
+  }
+}
+DC.demarrer(Component);
+</script>
+</body>
+</html>

@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F5F4EF">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<title>Répondre à l’invitation — Marine &amp; Pierre</title>
+<link rel="stylesheet" href="site.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500&amp;family=Gloock&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#4A6645}a:hover{color:#A23B31}
+.rep-zone { position: relative; isolation: isolate; padding-block: 8px clamp(56px, 8vw, 112px); }
+.rep-grille { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(28px, 5vw, 80px); align-items: start; }
+.rep-onglets { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; position: sticky; top: 24px; }
+.rep-onglet {
+  width: 100%; text-align: left; display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 14px; align-items: center;
+  padding: 14px 16px; border-radius: 14px; border: 1.5px solid transparent; background: transparent; color: var(--encre);
+  cursor: pointer; font: inherit; transition: background-color .2s var(--ease), border-color .2s var(--ease);
+}
+.rep-onglet:hover { background: rgba(255, 255, 255, .55); }
+.rep-onglet[aria-selected="true"] { background: #FFFDF9; border-color: rgba(34, 48, 42, .18); box-shadow: 0 14px 28px -22px rgba(34, 48, 42, .55); }
+.rep-onglet__pastille { grid-row: 1 / span 2; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--encre); font-family: var(--f-display); font-size: 1.1rem; }
+.rep-onglet__pastille svg { width: 20px; height: 20px; }
+.rep-onglet--fait .rep-onglet__pastille { background: var(--fougere); border-color: var(--fougere); color: #fff; }
+.rep-onglet__titre { font-family: var(--f-display); font-size: 1.35rem; line-height: 1.15; }
+.rep-onglet__etat { font-size: .92rem; color: var(--encre-douce); }
+.rep-feuille {
+  position: relative; background: #FFFDF9; border-radius: 6px; padding: clamp(24px, 4vw, 56px);
+  box-shadow: 0 1px 2px rgba(34, 48, 42, .08), 0 30px 60px -40px rgba(34, 48, 42, .45);
+}
+.rep-feuille h2 { font-size: var(--t-3xl); }
+.rep-feuille__intro { margin-top: 12px; color: var(--encre-douce); max-width: 52ch; }
+.rep-form { display: grid; gap: 30px; margin-top: 36px; }
+.rep-duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.rep-grands-choix { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.rep-grand {
+  display: flex; align-items: center; gap: 14px; min-height: 76px; padding: 14px 20px; border-radius: 14px;
+  border: 1.5px solid rgba(34, 48, 42, .25); background: rgba(255, 255, 255, .6); color: var(--encre);
+  font: 400 1.35rem var(--f-display); cursor: pointer; text-align: left; transition: all .2s var(--ease);
+}
+.rep-grand:hover { border-color: var(--encre); }
+.rep-grand svg { width: 30px; height: 30px; flex: none; }
+.rep-grand[aria-pressed="true"] { background: var(--encre); color: var(--papier); border-color: var(--encre); }
+.rep-grand--oui[aria-pressed="true"] { background: var(--rouge); border-color: var(--rouge); color: #FFF9F4; }
+.rep-erreur { color: var(--rouge-fonce); font-size: .95rem; display: flex; gap: 6px; align-items: center; }
+.rep-erreur svg { width: 16px; height: 16px; flex: none; }
+.rep-ligne-compteurs { display: flex; flex-wrap: wrap; gap: 28px; }
+.rep-compteur-champ { display: grid; gap: 8px; }
+.rep-envoyer { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; padding-top: 8px; border-top: 1px solid var(--filet); padding-top: 26px; }
+.rep-envoyer p { font-size: .95rem; color: var(--encre-douce); max-width: 40ch; }
+.rep-convive { display: grid; gap: 18px; padding: 22px 0; border-top: 1px solid var(--filet); }
+.rep-convive__tete { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.rep-convive__tete h3 { font-size: var(--t-xl); }
+.rep-texte-bouton { background: none; border: 0; padding: 0 4px; min-height: 44px; color: var(--fougere); font: 500 1rem var(--f-texte); cursor: pointer; text-decoration: underline; text-underline-offset: .22em; }
+.rep-texte-bouton:hover { color: var(--rouge); }
+.rep-option {
+  display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 4px 14px; width: 100%; text-align: left; padding: 16px 18px; border-radius: 14px;
+  border: 1.5px solid rgba(34, 48, 42, .22); background: rgba(255, 255, 255, .6); color: var(--encre); cursor: pointer; font: inherit;
+  transition: all .2s var(--ease);
+}
+.rep-option:hover { border-color: var(--encre); }
+.rep-option[aria-pressed="true"] { border-color: var(--fougere); background: #EEF3EA; }
+.rep-option__case { grid-row: 1 / span 2; width: 24px; height: 24px; border-radius: 7px; border: 1.5px solid var(--encre-douce); display: flex; align-items: center; justify-content: center; margin-top: 2px; background: #fff; }
+.rep-option[aria-pressed="true"] .rep-option__case { background: var(--fougere); border-color: var(--fougere); color: #fff; }
+.rep-option__case svg { width: 16px; height: 16px; }
+.rep-option__titre { font-family: var(--f-display); font-size: 1.3rem; line-height: 1.2; }
+.rep-option__desc { color: var(--encre-douce); font-size: 1rem; }
+.rep-options { display: grid; gap: 10px; }
+.rep-merci { display: grid; gap: 18px; justify-items: start; padding-block: 12px; }
+.rep-merci__titre { position: relative; display: inline-block; font-size: clamp(2.4rem, 5vw, 3.6rem); padding: 10px 26px; }
+.rep-merci__cercle { position: absolute; inset: -12px -18px; width: calc(100% + 36px); height: calc(100% + 24px); overflow: visible; pointer-events: none; }
+.rep-merci__cercle path { fill: none; stroke: var(--rouge); stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.rep-merci p { color: var(--encre-douce); max-width: 46ch; font-size: 1.1rem; }
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.calme) .rep-merci__cercle path { animation: rep-cercle .9s cubic-bezier(.65, 0, .35, 1) .15s both; }
+  html:not(.calme) .rep-feuille__panneau { animation: rep-feuille .45s var(--ease) both; }
+}
+@keyframes rep-cercle { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes rep-feuille { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (max-width: 860px) {
+  .rep-grille { grid-template-columns: minmax(0, 1fr); }
+  .rep-onglets { position: static; grid-auto-flow: column; grid-auto-columns: minmax(220px, 1fr); overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
+  .rep-onglets li { scroll-snap-align: start; }
+  .rep-duo, .rep-grands-choix { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+<link rel="icon" href="assets/monogramme.webp">
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-tpl">
+
+
+<div class="page" style="position: relative; min-height: 100vh; overflow-x: clip;">
+
+<svg class="defs" aria-hidden="true" focusable="false">
+  <filter id="fremit" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="2" result="bruit">
+      <animate attributeName="seed" values="2;7;4;9;1;6" dur="0.7s" calcMode="discrete" repeatCount="indefinite"></animate>
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="bruit" scale="3.2" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+  <filter id="grain-pierre" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="11"></feTurbulence>
+    <feColorMatrix type="matrix" values="0 0 0 0 0.42  0 0 0 0 0.35  0 0 0 0 0.26  0 0 0 0.6 0"></feColorMatrix>
+  </filter>
+</svg>
+
+<a class="saut" href="#contenu">Aller au contenu</a>
+
+<header class="wrap">
+  <nav class="nav" aria-label="Navigation principale">
+    <a class="nav__marque" href="index.html">
+      <img class="nav__monogramme" src="assets/monogramme.webp" alt="" width="664" height="583">
+      <span>Marine &amp; Pierre</span>
+    </a>
+    <ul class="nav__liens">
+      <li><a href="programme.html">Programme</a></li>
+      <li><a href="acces.html">Accès</a></li>
+      <li><a href="hebergements.html">Hébergements</a></li>
+      <li><a href="liste.html">Liste de mariage</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li style="margin-left: 12px;"><a class="bouton bouton--plein bouton--petit" href="repondre.html" aria-current="page" style="color: #FFF9F4;">Répondre</a></li>
+    </ul>
+    <button class="icone-bouton nav__menu" type="button" aria-expanded="{{menuEtat}}" onClick="{{ouvrir}}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5c5.3-.4 10.7-.3 16 0M4 12.2c5.3-.3 10.7-.2 16 .1M4 16.8c5.3-.4 10.7-.3 16 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+      Menu
+    </button>
+  </nav>
+</header>
+
+<sc-if value="{{menu}}" hint-placeholder-val="{{false}}">
+  <div class="voile-menu" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="voile-menu__tete">
+      <a class="nav__marque" href="index.html"><span>Marine &amp; Pierre</span></a>
+      <button class="icone-bouton" type="button" onClick="{{fermer}}" aria-label="Fermer le menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6.3c4 3.6 8 7.5 12 11.5M18 6c-3.9 4-7.9 7.9-12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+      </button>
+    </div>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="programme.html">Programme</a></li>
+      <li><a href="acces.html">Accès</a></li>
+      <li><a href="hebergements.html">Hébergements</a></li>
+      <li><a href="liste.html">Liste de mariage</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="voile-menu__pied">
+      <a class="bouton bouton--plein" href="repondre.html" aria-current="page" style="color: #FFF9F4;">Répondre à l’invitation</a>
+      <p style="color: #4B5A51; font-size: 0.95rem;">Samedi 12 juin 2027, Guéthary puis Sare</p>
+    </div>
+  </div>
+</sc-if>
+
+<main id="contenu">
+
+  <section class="entete" aria-labelledby="titre-page">
+    <div class="lavis lavis--rose" style="left: -8%; top: 0; width: 46%; height: 90%; opacity: 0.34;"></div>
+    <div class="wrap entete__grille">
+      <div>
+        <h1 id="titre-page" class="entete__titre">Votre réponse</h1>
+        <p class="entete__intro">Trois petits questionnaires, à remplir avant le 15 mars 2027. Une réponse par invitation suffit ; vous pourrez la modifier jusqu’à cette date.</p>
+      </div>
+      <div class="entete__deco"><img class="vignette" src="assets/vignettes/enveloppe.webp" alt="" width="472" height="376" style="width: 100%;"></div>
+    </div>
+  </section>
+
+  <section class="rep-zone" aria-label="Questionnaires">
+    <div class="lavis lavis--sauge" style="right: -12%; top: 6%; width: 60%; height: 40%; opacity: 0.32;"></div>
+    <div class="lavis lavis--sable" style="left: -14%; bottom: 0; width: 50%; height: 40%; opacity: 0.4;"></div>
+    <div class="wrap rep-grille">
+
+      <ul class="rep-onglets" role="tablist" aria-label="Questionnaires">
+        <sc-for list="{{onglets}}" as="o" hint-placeholder-count="3">
+          <li role="presentation">
+            <button class="{{o.classe}}" type="button" role="tab" id="{{o.idOnglet}}" aria-selected="{{o.choisi}}" aria-controls="panneau-reponse" onClick="{{o.choisir}}">
+              <span class="rep-onglet__pastille" aria-hidden="true">
+                <sc-if value="{{o.fait}}" hint-placeholder-val="{{false}}">
+                  <svg viewBox="0 0 20 20"><path d="M4.5 10.6c1.6 1.4 2.9 2.7 4 4.1 2.2-3.7 4.4-6.6 7-9.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </sc-if>
+                <sc-if value="{{o.pasFait}}" hint-placeholder-val="{{true}}">
+                  <span>{{o.numero}}</span>
+                </sc-if>
+              </span>
+              <span class="rep-onglet__titre">{{o.titre}}</span>
+              <span class="rep-onglet__etat">{{o.etat}}</span>
+            </button>
+          </li>
+        </sc-for>
+      </ul>
+
+      <div class="rep-feuille" id="panneau-reponse" role="tabpanel" aria-labelledby="{{ongletActifId}}">
+
+        <sc-if value="{{vuePresence}}" hint-placeholder-val="{{true}}">
+          <div class="rep-feuille__panneau">
+            <sc-if value="{{p.pasEnvoye}}" hint-placeholder-val="{{true}}">
+              <h2>Votre présence</h2>
+              <p class="rep-feuille__intro">Dites-nous qui viendra et à quels moments. Si vous ne pouvez pas venir, un petit mot nous fera tout autant plaisir.</p>
+              <form class="rep-form" novalidate="novalidate" onSubmit="{{p.envoyer}}">
+                <div class="rep-duo">
+                  <div class="champ">
+                    <label for="p-nom">Nom(s) sur l’invitation</label>
+                    <input class="saisie" id="p-nom" type="text" autocomplete="name" placeholder="Claire et Thomas Martin" value="{{p.nom}}" onInput="{{p.setNom}}" aria-invalid="{{p.nomInvalide}}" aria-describedby="p-nom-err">
+                    <sc-if value="{{p.errNom}}" hint-placeholder-val="{{false}}">
+                      <p class="rep-erreur" id="p-nom-err"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.3"></circle><path d="M8 4.6v4.2M8 11.2v.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg>Indiquez au moins un nom.</p>
+                    </sc-if>
+                  </div>
+                  <div class="champ">
+                    <label for="p-email">E-mail</label>
+                    <input class="saisie" id="p-email" type="email" autocomplete="email" placeholder="claire@exemple.fr" value="{{p.email}}" onInput="{{p.setEmail}}" aria-invalid="{{p.emailInvalide}}" aria-describedby="p-email-err">
+                    <sc-if value="{{p.errEmail}}" hint-placeholder-val="{{false}}">
+                      <p class="rep-erreur" id="p-email-err"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.3"></circle><path d="M8 4.6v4.2M8 11.2v.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg>Indiquez une adresse e-mail valide, pour recevoir la confirmation.</p>
+                    </sc-if>
+                  </div>
+                </div>
+
+                <fieldset class="champ">
+                  <legend style="margin-bottom: 10px;">Serez-vous des nôtres ?</legend>
+                  <div class="rep-grands-choix">
+                    <button class="rep-grand rep-grand--oui" type="button" aria-pressed="{{p.ouiPresse}}" onClick="{{p.direOui}}">
+                      <svg viewBox="0 0 30 30" aria-hidden="true"><path d="M15 25.4c-5-3.4-10.2-7.6-10.2-12.6 0-3.2 2.4-5.6 5.4-5.6 2 0 3.8 1.2 4.8 3 1-1.8 2.8-3 4.8-3 3 0 5.4 2.4 5.4 5.6 0 5-5.2 9.2-10.2 12.6z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path></svg>
+                      Oui, avec joie
+                    </button>
+                    <button class="rep-grand" type="button" aria-pressed="{{p.nonPresse}}" onClick="{{p.direNon}}">
+                      <svg viewBox="0 0 30 30" aria-hidden="true"><path d="M7.4 21.8c5-.4 10.4-.4 15.4 0M10 15.6c1.2-1.2 2.6-1.2 3.8 0M16.4 15.6c1.2-1.2 2.6-1.2 3.8 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><circle cx="15" cy="15" r="11" fill="none" stroke="currentColor" stroke-width="1.5"></circle></svg>
+                      Hélas, non
+                    </button>
+                  </div>
+                  <sc-if value="{{p.errVenue}}" hint-placeholder-val="{{false}}">
+                    <p class="rep-erreur"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.3"></circle><path d="M8 4.6v4.2M8 11.2v.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg>Choisissez une réponse.</p>
+                  </sc-if>
+                </fieldset>
+
+                <sc-if value="{{p.estOui}}" hint-placeholder-val="{{false}}">
+                  <div class="rep-form" style="margin-top: 0;">
+                    <fieldset class="champ">
+                      <legend style="margin-bottom: 10px;">À quels moments serez-vous là ?</legend>
+                      <div class="choix">
+                        <sc-for list="{{p.moments}}" as="m" hint-placeholder-count="3">
+                          <button class="puce" type="button" aria-pressed="{{m.presse}}" onClick="{{m.basculer}}">
+                            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.4 8.4c1.2 1 2.2 2 3 3.1 1.6-2.8 3.4-5 5.4-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="{{m.opacite}}"></path></svg>
+                            {{m.label}}
+                          </button>
+                        </sc-for>
+                      </div>
+                    </fieldset>
+
+                    <div class="rep-ligne-compteurs">
+                      <div class="rep-compteur-champ">
+                        <span id="lbl-adultes" style="font-weight: 500;">Adultes</span>
+                        <div class="compteur" role="group" aria-labelledby="lbl-adultes">
+                          <button type="button" onClick="{{p.moinsAdultes}}" aria-label="Un adulte de moins"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.2c3.4-.3 6.7-.3 10 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg></button>
+                          <output aria-live="polite">{{p.adultes}}</output>
+                          <button type="button" onClick="{{p.plusAdultes}}" aria-label="Un adulte de plus"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.2c3.4-.3 6.7-.3 10 0M9.1 4c-.3 3.4-.3 6.7 0 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg></button>
+                        </div>
+                      </div>
+                      <div class="rep-compteur-champ">
+                        <span id="lbl-enfants" style="font-weight: 500;">Enfants</span>
+                        <div class="compteur" role="group" aria-labelledby="lbl-enfants">
+                          <button type="button" onClick="{{p.moinsEnfants}}" aria-label="Un enfant de moins"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.2c3.4-.3 6.7-.3 10 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg></button>
+                          <output aria-live="polite">{{p.enfants}}</output>
+                          <button type="button" onClick="{{p.plusEnfants}}" aria-label="Un enfant de plus"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.2c3.4-.3 6.7-.3 10 0M9.1 4c-.3 3.4-.3 6.7 0 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg></button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <sc-if value="{{p.aEnfants}}" hint-placeholder-val="{{false}}">
+                      <div class="champ">
+                        <label for="p-ages">Âge des enfants</label>
+                        <input class="saisie" id="p-ages" type="text" placeholder="4 ans et 7 ans" value="{{p.ages}}" onInput="{{p.setAges}}">
+                        <span class="champ__aide">Pour prévoir les menus et l’espace enfants, ouvert à partir de 19 h.</span>
+                      </div>
+                    </sc-if>
+
+                    <fieldset class="champ">
+                      <legend style="margin-bottom: 10px;">Prendrez-vous une navette ?</legend>
+                      <div class="choix">
+                        <sc-for list="{{p.navettes}}" as="n" hint-placeholder-count="4">
+                          <button class="puce" type="button" aria-pressed="{{n.presse}}" onClick="{{n.basculer}}">{{n.label}}</button>
+                        </sc-for>
+                      </div>
+                    </fieldset>
+                  </div>
+                </sc-if>
+
+                <div class="champ">
+                  <label for="p-mot">Un mot pour les mariés <span style="font-weight: 400; color: #4B5A51;">(facultatif)</span></label>
+                  <textarea class="saisie" id="p-mot" placeholder="Une chanson pour le bal, un souvenir, un conseil…" value="{{p.mot}}" onInput="{{p.setMot}}"></textarea>
+                </div>
+
+                <div class="rep-envoyer">
+                  <button class="bouton bouton--plein" type="submit" onClick="{{p.envoyer}}">Envoyer ma réponse</button>
+                  <p>Vous recevrez une copie par e-mail. Les allergies se renseignent dans l’onglet suivant.</p>
+                </div>
+              </form>
+            </sc-if>
+
+            <sc-if value="{{p.envoye}}" hint-placeholder-val="{{false}}">
+              <div class="rep-merci" role="status">
+                <h2 class="rep-merci__titre">
+                  {{p.merciTitre}}
+                  <svg class="rep-merci__cercle" viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M42 22C92 4 214 2 266 22c34 14 34 62 4 80-48 26-188 24-238 2C-4 88 0 40 52 18c40-14 120-16 170-8"></path></svg>
+                </h2>
+                <p>{{p.merciTexte}}</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+                  <sc-if value="{{p.estOui}}" hint-placeholder-val="{{true}}">
+                    <button class="bouton bouton--plein" type="button" onClick="{{allerRepas}}">Passer aux allergies</button>
+                  </sc-if>
+                  <button class="bouton bouton--trait" type="button" onClick="{{p.modifier}}">Modifier ma réponse</button>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{vueRepas}}" hint-placeholder-val="{{false}}">
+          <div class="rep-feuille__panneau">
+            <sc-if value="{{r.pasEnvoye}}" hint-placeholder-val="{{true}}">
+              <h2>Repas et allergies</h2>
+              <p class="rep-feuille__intro">Une fiche par convive, pour que le traiteur prépare une assiette juste pour chacun. Laissez vide si tout vous convient.</p>
+              <form class="rep-form" novalidate="novalidate" onSubmit="{{r.envoyer}}">
+                <div>
+                  <sc-for list="{{r.convives}}" as="c" hint-placeholder-count="1">
+                    <div class="rep-convive">
+                      <div class="rep-convive__tete">
+                        <h3>{{c.titre}}</h3>
+                        <sc-if value="{{c.retirable}}" hint-placeholder-val="{{false}}">
+                          <button class="rep-texte-bouton" type="button" onClick="{{c.retirer}}">Retirer</button>
+                        </sc-if>
+                      </div>
+                      <div class="champ">
+                        <label for="{{c.idNom}}">Prénom</label>
+                        <input class="saisie" id="{{c.idNom}}" type="text" placeholder="Prénom du convive" value="{{c.nom}}" onInput="{{c.setNom}}">
+                      </div>
+                      <fieldset class="champ">
+                        <legend style="margin-bottom: 10px;">Régime alimentaire</legend>
+                        <div class="choix">
+                          <sc-for list="{{c.regimes}}" as="g" hint-placeholder-count="6">
+                            <button class="puce" type="button" aria-pressed="{{g.presse}}" onClick="{{g.basculer}}">{{g.label}}</button>
+                          </sc-for>
+                        </div>
+                      </fieldset>
+                      <div class="champ">
+                        <label for="{{c.idAllergies}}">Allergies ou intolérances</label>
+                        <input class="saisie" id="{{c.idAllergies}}" type="text" placeholder="Fruits à coque, crustacés…" value="{{c.allergies}}" onInput="{{c.setAllergies}}">
+                        <span class="champ__aide">Précisez la sévérité si besoin : le traiteur adaptera aussi la cuisine.</span>
+                      </div>
+                      <div class="choix">
+                        <button class="puce" type="button" aria-pressed="{{c.enfantPresse}}" onClick="{{c.basculerEnfant}}">Menu enfant</button>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <button class="bouton bouton--trait bouton--petit" type="button" onClick="{{r.ajouter}}" style="margin-top: 8px;">
+                    <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.2c3.4-.3 6.7-.3 10 0M9.1 4c-.3 3.4-.3 6.7 0 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+                    Ajouter un convive
+                  </button>
+                </div>
+                <sc-if value="{{r.errNom}}" hint-placeholder-val="{{false}}">
+                  <p class="rep-erreur"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.3"></circle><path d="M8 4.6v4.2M8 11.2v.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg>Indiquez le prénom de chaque convive.</p>
+                </sc-if>
+                <div class="rep-envoyer">
+                  <button class="bouton bouton--plein" type="submit" onClick="{{r.envoyer}}">Envoyer au traiteur</button>
+                  <p>Ces informations ne servent qu’à préparer le dîner.</p>
+                </div>
+              </form>
+            </sc-if>
+            <sc-if value="{{r.envoye}}" hint-placeholder-val="{{false}}">
+              <div class="rep-merci" role="status">
+                <h2 class="rep-merci__titre">
+                  C’est transmis
+                  <svg class="rep-merci__cercle" viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M42 22C92 4 214 2 266 22c34 14 34 62 4 80-48 26-188 24-238 2C-4 88 0 40 52 18c40-14 120-16 170-8"></path></svg>
+                </h2>
+                <p>{{r.merciTexte}}</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+                  <button class="bouton bouton--plein" type="button" onClick="{{allerVendredi}}">Répondre au sondage du vendredi</button>
+                  <button class="bouton bouton--trait" type="button" onClick="{{r.modifier}}">Modifier</button>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{vueVendredi}}" hint-placeholder-val="{{false}}">
+          <div class="rep-feuille__panneau">
+            <sc-if value="{{v.pasEnvoye}}" hint-placeholder-val="{{true}}">
+              <h2>Vendredi soir</h2>
+              <p class="rep-feuille__intro">Beaucoup d’entre vous arriveront la veille. Nous aimerions organiser un moment simple le vendredi 11 juin : dites-nous ce qui vous tente.</p>
+              <form class="rep-form" novalidate="novalidate" onSubmit="{{v.envoyer}}">
+                <fieldset class="champ">
+                  <legend style="margin-bottom: 10px;">Serez-vous au Pays basque dès vendredi soir ?</legend>
+                  <div class="choix">
+                    <sc-for list="{{v.presences}}" as="x" hint-placeholder-count="3">
+                      <button class="puce" type="button" aria-pressed="{{x.presse}}" onClick="{{x.choisir}}">{{x.label}}</button>
+                    </sc-for>
+                  </div>
+                </fieldset>
+                <fieldset class="champ">
+                  <legend style="margin-bottom: 4px;">Qu’est-ce qui vous tenterait ?</legend>
+                  <span class="champ__aide" style="margin-bottom: 10px;">Plusieurs choix possibles.</span>
+                  <div class="rep-options">
+                    <sc-for list="{{v.options}}" as="o" hint-placeholder-count="4">
+                      <button class="rep-option" type="button" aria-pressed="{{o.presse}}" onClick="{{o.basculer}}">
+                        <span class="rep-option__case" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.4 8.4c1.2 1 2.2 2 3 3.1 1.6-2.8 3.4-5 5.4-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="{{o.opacite}}"></path></svg></span>
+                        <span class="rep-option__titre">{{o.titre}}</span>
+                        <span class="rep-option__desc">{{o.desc}}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </fieldset>
+                <div class="rep-compteur-champ">
+                  <span id="lbl-vendredi" style="font-weight: 500;">Combien seriez-vous ?</span>
+                  <div class="compteur" role="group" aria-labelledby="lbl-vendredi">
+                    <button type="button" onClick="{{v.moins}}" aria-label="Une personne de moins"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.2c3.4-.3 6.7-.3 10 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg></button>
+                    <output aria-live="polite">{{v.nb}}</output>
+                    <button type="button" onClick="{{v.plus}}" aria-label="Une personne de plus"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.2c3.4-.3 6.7-.3 10 0M9.1 4c-.3 3.4-.3 6.7 0 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg></button>
+                  </div>
+                </div>
+                <sc-if value="{{v.err}}" hint-placeholder-val="{{false}}">
+                  <p class="rep-erreur"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.3"></circle><path d="M8 4.6v4.2M8 11.2v.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg>Dites-nous au moins si vous serez là vendredi soir.</p>
+                </sc-if>
+                <div class="rep-envoyer">
+                  <button class="bouton bouton--plein" type="submit" onClick="{{v.envoyer}}">Envoyer mon vote</button>
+                  <p>Nous annoncerons le programme du vendredi fin mars.</p>
+                </div>
+              </form>
+            </sc-if>
+            <sc-if value="{{v.envoye}}" hint-placeholder-val="{{false}}">
+              <div class="rep-merci" role="status">
+                <h2 class="rep-merci__titre">
+                  Vote enregistré
+                  <svg class="rep-merci__cercle" viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M42 22C92 4 214 2 266 22c34 14 34 62 4 80-48 26-188 24-238 2C-4 88 0 40 52 18c40-14 120-16 170-8"></path></svg>
+                </h2>
+                <p>Merci ! Nous vous dirons fin mars ce que le vendredi vous réserve.</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+                  <a class="bouton bouton--trait" href="hebergements.html">Réserver mon hébergement</a>
+                  <button class="bouton bouton--trait" type="button" onClick="{{v.modifier}}">Modifier mon vote</button>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="barre" aria-label="Navigation rapide">
+    <a class="barre__lien" href="programme.html"><img src="assets/vignettes/calendrier.webp" alt="" width="426" height="517"><span>Programme</span></a>
+    <a class="barre__lien" href="acces.html"><img src="assets/vignettes/carte.webp" alt="" width="462" height="450"><span>Accès</span></a>
+    <a class="barre__lien barre__lien--rsvp" href="repondre.html" aria-current="page"><img src="assets/vignettes/enveloppe.webp" alt="" width="472" height="376"><span>Répondre</span></a>
+    <a class="barre__lien" href="hebergements.html"><img src="assets/vignettes/cle.webp" alt="" width="438" height="522"><span>Dormir</span></a>
+    <button class="barre__lien" type="button" onClick="{{ouvrir}}" aria-expanded="{{menuEtat}}" aria-label="Plus de pages : accueil, liste de mariage, contact"><svg viewBox="0 0 26 30" aria-hidden="true"><circle cx="5" cy="17" r="2.2" fill="currentColor"></circle><circle cx="13" cy="16.6" r="2.2" fill="currentColor"></circle><circle cx="21" cy="17.2" r="2.2" fill="currentColor"></circle></svg><span>Plus</span></button>
+</nav>
+
+<footer class="pied">
+  <div class="lavis lavis--sauge pied__lavis"></div>
+  <div class="wrap">
+    <div class="pied__bas" style="margin-top: 0;">
+      <p>Marine &amp; Pierre, le 12 juin 2027 à Sare</p>
+      <ul class="pied__liens">
+        <li><a href="programme.html">Programme</a></li>
+        <li><a href="acces.html">Accès</a></li>
+        <li><a href="hebergements.html">Hébergements</a></li>
+        <li><a href="liste.html">Liste</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="bascule" type="button" aria-pressed="{{animOn}}" onClick="{{basculer}}">
+        <span class="bascule__piste" aria-hidden="true"></span>
+        <span>Animations</span>
+      </button>
+    </div>
+  </div>
+</footer>
+
+</div>
+</template>
+<script src="morphdom.min.js"></script>
+<script src="dc-runtime.js"></script>
+<script>
+class Component extends DCLogic {
+  componentDidMount() {
+    var calme = false;
+    try { calme = window.localStorage.getItem('mp-calme') === '1'; } catch (e) {}
+    try { document.documentElement.classList.toggle('calme', calme); } catch (e) {}
+    this.setState({ calme: calme });
+  }
+
+  etat() {
+    var s = this.state || {};
+    return {
+      onglet: s.onglet || 'presence',
+      p: s.p || { nom: '', email: '', venue: null, moments: { ceremonie: true, vin: true, diner: true }, adultes: 1, enfants: 0, ages: '', navettes: {}, mot: '', tente: false, envoye: false },
+      r: s.r || { convives: [{ nom: '', regimes: {}, allergies: '', enfant: false }], tente: false, envoye: false },
+      v: s.v || { present: null, choix: {}, nb: 1, tente: false, envoye: false },
+      menu: !!s.menu,
+      calme: !!s.calme
+    };
+  }
+
+  maj(cle, patch) {
+    var e = this.etat();
+    var o = {};
+    o[cle] = Object.assign({}, e[cle], patch);
+    this.setState(o);
+  }
+
+  renderVals() {
+    var self = this;
+    var e = this.etat();
+    var P = e.p, R = e.r, V = e.v;
+    var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(P.email.trim());
+    var stop = function (ev) { if (ev && ev.preventDefault) ev.preventDefault(); };
+    var val = function (ev) { return ev && ev.target ? ev.target.value : ''; };
+    var haut = function () { try { document.getElementById('panneau-reponse').scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (x) {} };
+
+    var defs = [
+      { id: 'presence', numero: '1', titre: 'Votre présence', fait: P.envoye, etat: P.envoye ? (P.venue === 'oui' ? 'Envoyé : vous venez' : 'Envoyé') : 'À remplir, 2 minutes' },
+      { id: 'repas', numero: '2', titre: 'Repas et allergies', fait: R.envoye, etat: R.envoye ? 'Transmis au traiteur' : 'Pour chaque convive' },
+      { id: 'vendredi', numero: '3', titre: 'Vendredi soir', fait: V.envoye, etat: V.envoye ? 'Vote enregistré' : 'Petit sondage' }
+    ];
+    var onglets = defs.map(function (d) {
+      var choisi = e.onglet === d.id;
+      return {
+        numero: d.numero, titre: d.titre, etat: d.etat, fait: !!d.fait, pasFait: !d.fait,
+        idOnglet: 'onglet-' + d.id,
+        choisi: choisi ? 'true' : 'false',
+        classe: 'rep-onglet' + (d.fait ? ' rep-onglet--fait' : ''),
+        choisir: function () { self.setState({ onglet: d.id }); }
+      };
+    });
+
+    var momentsDefs = [['ceremonie', 'La cérémonie à Guéthary'], ['vin', 'Le vin d’honneur'], ['diner', 'Le dîner et le bal']];
+    var moments = momentsDefs.map(function (m) {
+      var on = !!P.moments[m[0]];
+      return { label: m[1], presse: on ? 'true' : 'false', opacite: on ? '1' : '0.25', basculer: function () { var x = Object.assign({}, P.moments); x[m[0]] = !on; self.maj('p', { moments: x }); } };
+    });
+    var navDefs = [['aller', 'Aller, 16 h 30 ou 16 h 50'], ['bourg', 'Retour vers le bourg de Sare'], ['sjl', 'Retour vers Saint-Jean-de-Luz'], ['non', 'Non, je suis en voiture']];
+    var navettes = navDefs.map(function (n) {
+      var on = !!P.navettes[n[0]];
+      return { label: n[1], presse: on ? 'true' : 'false', basculer: function () {
+        var x = Object.assign({}, P.navettes);
+        if (n[0] === 'non') { x = on ? {} : { non: true }; } else { x[n[0]] = !on; delete x.non; }
+        self.maj('p', { navettes: x });
+      } };
+    });
+    var pErrNom = P.tente && !P.nom.trim();
+    var pErrEmail = P.tente && !emailOk;
+    var pErrVenue = P.tente && !P.venue;
+    var nbPers = P.adultes + P.enfants;
+    var p = {
+      nom: P.nom, email: P.email, ages: P.ages, mot: P.mot,
+      adultes: String(P.adultes), enfants: String(P.enfants), aEnfants: P.enfants > 0,
+      estOui: P.venue === 'oui',
+      ouiPresse: P.venue === 'oui' ? 'true' : 'false', nonPresse: P.venue === 'non' ? 'true' : 'false',
+      errNom: pErrNom, errEmail: pErrEmail, errVenue: pErrVenue,
+      nomInvalide: pErrNom ? 'true' : 'false', emailInvalide: pErrEmail ? 'true' : 'false',
+      moments: moments, navettes: navettes,
+      envoye: P.envoye, pasEnvoye: !P.envoye,
+      merciTitre: P.venue === 'oui' ? 'C’est noté !' : 'Merci pour votre mot',
+      merciTexte: P.venue === 'oui'
+        ? 'Nous vous attendons le 12 juin, ' + (nbPers > 1 ? 'tous les ' + nbPers : 'avec joie') + '. Une copie de votre réponse part à ' + P.email.trim() + '.'
+        : 'Vous allez nous manquer. Nous penserons à vous en levant notre verre.',
+      setNom: function (ev) { self.maj('p', { nom: val(ev) }); },
+      setEmail: function (ev) { self.maj('p', { email: val(ev) }); },
+      setAges: function (ev) { self.maj('p', { ages: val(ev) }); },
+      setMot: function (ev) { self.maj('p', { mot: val(ev) }); },
+      direOui: function () { self.maj('p', { venue: 'oui' }); },
+      direNon: function () { self.maj('p', { venue: 'non' }); },
+      plusAdultes: function () { self.maj('p', { adultes: Math.min(8, P.adultes + 1) }); },
+      moinsAdultes: function () { self.maj('p', { adultes: Math.max(1, P.adultes - 1) }); },
+      plusEnfants: function () { self.maj('p', { enfants: Math.min(8, P.enfants + 1) }); },
+      moinsEnfants: function () { self.maj('p', { enfants: Math.max(0, P.enfants - 1) }); },
+      envoyer: function (ev) {
+        stop(ev);
+        var ok = P.nom.trim() && emailOk && P.venue;
+        if (!ok) {
+          self.maj('p', { tente: true });
+          setTimeout(function () {
+            var id = !P.nom.trim() ? 'p-nom' : (!emailOk ? 'p-email' : null);
+            if (id) { try { document.getElementById(id).focus(); } catch (x) {} }
+          }, 30);
+          return;
+        }
+        self.maj('p', { tente: true, envoye: true });
+        haut();
+      },
+      modifier: function () { self.maj('p', { envoye: false }); }
+    };
+
+    var regimeDefs = ['Aucun régime', 'Végétarien', 'Végétalien', 'Sans gluten', 'Sans lactose', 'Sans porc'];
+    var convives = R.convives.map(function (c, i) {
+      var majC = function (patch) {
+        var liste = R.convives.slice();
+        liste[i] = Object.assign({}, liste[i], patch);
+        self.maj('r', { convives: liste });
+      };
+      return {
+        titre: (c.nom && c.nom.trim()) ? c.nom.trim() : 'Convive ' + (i + 1),
+        nom: c.nom, allergies: c.allergies,
+        idNom: 'r-nom-' + i, idAllergies: 'r-all-' + i,
+        retirable: R.convives.length > 1,
+        enfantPresse: c.enfant ? 'true' : 'false',
+        regimes: regimeDefs.map(function (lbl) {
+          var on = !!c.regimes[lbl];
+          return { label: lbl, presse: on ? 'true' : 'false', basculer: function () {
+            var x = Object.assign({}, c.regimes);
+            if (lbl === 'Aucun régime') { x = on ? {} : { 'Aucun régime': true }; } else { x[lbl] = !on; delete x['Aucun régime']; }
+            majC({ regimes: x });
+          } };
+        }),
+        setNom: function (ev) { majC({ nom: val(ev) }); },
+        setAllergies: function (ev) { majC({ allergies: val(ev) }); },
+        basculerEnfant: function () { majC({ enfant: !c.enfant }); },
+        retirer: function () { var liste = R.convives.slice(); liste.splice(i, 1); self.maj('r', { convives: liste }); }
+      };
+    });
+    var nomsManquants = R.convives.some(function (c) { return !c.nom.trim(); });
+    var nbAllergies = R.convives.filter(function (c) { return c.allergies.trim() || Object.keys(c.regimes).some(function (k) { return c.regimes[k] && k !== 'Aucun régime'; }); }).length;
+    var r = {
+      convives: convives,
+      errNom: R.tente && nomsManquants,
+      envoye: R.envoye, pasEnvoye: !R.envoye,
+      merciTexte: R.convives.length + (R.convives.length > 1 ? ' fiches transmises' : ' fiche transmise') + (nbAllergies ? ', dont ' + nbAllergies + ' avec un régime ou une allergie. Le traiteur vous préparera une assiette sur mesure.' : '. Tout le monde mangera de tout, le traiteur sera ravi.'),
+      ajouter: function () { var liste = R.convives.concat([{ nom: '', regimes: {}, allergies: '', enfant: false }]); self.maj('r', { convives: liste }); },
+      envoyer: function (ev) {
+        stop(ev);
+        if (nomsManquants) { self.maj('r', { tente: true }); return; }
+        self.maj('r', { tente: true, envoye: true });
+        haut();
+      },
+      modifier: function () { self.maj('r', { envoye: false }); }
+    };
+
+    var presDefs = [['oui', 'Oui, dès vendredi'], ['non', 'Non, samedi seulement'], ['peut', 'Pas encore sûr']];
+    var optDefs = [
+      ['cidrerie', 'Une soirée en cidrerie à Sare', 'Txotx au tonneau, omelette à la morue et côte de bœuf, à dix minutes du domaine.'],
+      ['plage', 'Un apéritif sur la plage de Guéthary', 'Au coucher du soleil, les pieds dans le sable, vers 20 h.'],
+      ['fronton', 'Pique-nique et pelote au fronton', 'Une partie amicale sur la place du village, puis un pique-nique basque.'],
+      ['repos', 'Rien de prévu, je me repose', 'C’est noté aussi : il faut garder des forces pour samedi.']
+    ];
+    var v = {
+      nb: String(V.nb),
+      err: V.tente && !V.present,
+      envoye: V.envoye, pasEnvoye: !V.envoye,
+      presences: presDefs.map(function (x) {
+        return { label: x[1], presse: V.present === x[0] ? 'true' : 'false', choisir: function () { self.maj('v', { present: x[0] }); } };
+      }),
+      options: optDefs.map(function (o) {
+        var on = !!V.choix[o[0]];
+        return { titre: o[1], desc: o[2], presse: on ? 'true' : 'false', opacite: on ? '1' : '0', basculer: function () { var x = Object.assign({}, V.choix); x[o[0]] = !on; self.maj('v', { choix: x }); } };
+      }),
+      plus: function () { self.maj('v', { nb: Math.min(10, V.nb + 1) }); },
+      moins: function () { self.maj('v', { nb: Math.max(1, V.nb - 1) }); },
+      envoyer: function (ev) {
+        stop(ev);
+        if (!V.present) { self.maj('v', { tente: true }); return; }
+        self.maj('v', { tente: true, envoye: true });
+        haut();
+      },
+      modifier: function () { self.maj('v', { envoye: false }); }
+    };
+
+    return {
+      onglets: onglets,
+      ongletActifId: 'onglet-' + e.onglet,
+      vuePresence: e.onglet === 'presence',
+      vueRepas: e.onglet === 'repas',
+      vueVendredi: e.onglet === 'vendredi',
+      allerRepas: function () { self.setState({ onglet: 'repas' }); haut(); },
+      allerVendredi: function () { self.setState({ onglet: 'vendredi' }); haut(); },
+      p: p, r: r, v: v,
+      menu: e.menu,
+      menuEtat: e.menu ? 'true' : 'false',
+      ouvrir: function () { self.setState({ menu: true }); },
+      fermer: function () { self.setState({ menu: false }); },
+      animOn: e.calme ? 'false' : 'true',
+      basculer: function () {
+        var nv = !self.state || !self.state.calme;
+        try { document.documentElement.classList.toggle('calme', nv); } catch (x) {}
+        try { window.localStorage.setItem('mp-calme', nv ? '1' : '0'); } catch (x) {}
+        self.setState({ calme: nv });
+      }
+    };
+  }
+}
+DC.demarrer(Component);
+</script>
+</body>
+</html>

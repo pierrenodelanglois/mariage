@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F5F4EF">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<title>Programme du samedi — Marine &amp; Pierre</title>
+<link rel="stylesheet" href="site.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500&amp;family=Gloock&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#4A6645}a:hover{color:#A23B31}
+.prog-chemin { position: relative; isolation: isolate; padding-block: clamp(40px, 5vw, 72px) clamp(56px, 8vw, 112px); background: linear-gradient(180deg, rgba(226,236,241,0), var(--ciel-matin) 8%, var(--ciel-midi) 40%, var(--ciel-soir) 72%, var(--ciel-nuit) 94%, rgba(225,217,234,0)); }
+.prog-bandeau img { width: 100%; height: auto; }
+.prog-liste { position: relative; list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(44px, 6vw, 76px); }
+.prog-trace { position: absolute; top: 60px; bottom: 60px; left: calc(200px + 32px + 63px); width: 2px; background-image: linear-gradient(180deg, rgba(34,48,42,.4) 55%, transparent 0); background-size: 2px 12px; }
+.prog-trace::after { content: ""; position: absolute; inset: 0; background: #22302A; transform-origin: top; transform: scaleY(1); border-radius: 2px; }
+.prog-etape { display: grid; grid-template-columns: 200px 128px minmax(0, 1fr); column-gap: 32px; align-items: center; }
+.prog-heure { font-family: var(--f-display); font-size: clamp(2.2rem, 4.2vw, 3.4rem); line-height: 1; text-align: right; font-variant-numeric: lining-nums; }
+.prog-marque { position: relative; z-index: 1; width: 128px; height: 128px; border-radius: 50%; background: radial-gradient(closest-side, rgba(245,244,239,.95) 70%, rgba(245,244,239,0)); display: flex; align-items: center; justify-content: center; padding: 6px; }
+.prog-marque img { width: 100%; height: 100%; object-fit: contain; }
+.prog-corps { padding-block: 8px; }
+.prog-corps h2 { font-size: var(--t-2xl); }
+.prog-corps p { margin-top: 10px; color: var(--encre-douce); max-width: 54ch; font-size: 1.1rem; }
+.prog-lieu { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-style: italic; font-size: 1rem; color: var(--encre); }
+.prog-lieu svg { width: 16px; height: 16px; color: var(--rouge); }
+
+.prog-etape--fort .prog-heure { color: var(--rouge); }
+.prog-savoir { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 4vw, 56px) clamp(32px, 6vw, 96px); margin-top: 40px; }
+.prog-savoir > div { display: grid; grid-template-columns: 104px minmax(0, 1fr); column-gap: 22px; align-items: start; }
+.prog-savoir__img { grid-row: 1 / span 2; width: 104px; height: 104px; object-fit: contain; }
+.prog-savoir h3 { font-size: var(--t-xl); align-self: end; }
+
+.prog-savoir p { margin-top: 10px; color: var(--encre-douce); max-width: 44ch; }
+.prog-agenda { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 28px; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    html:not(.calme) .prog-liste { view-timeline: --chemin block; }
+    html:not(.calme) .prog-trace::after { animation: prog-trace linear both; animation-timeline: --chemin; animation-range: cover 18% cover 82%; }
+    html:not(.calme) .prog-marque { animation: prog-marque linear both; animation-timeline: view(); animation-range: entry 70% cover 45%; }
+  }
+}
+@keyframes prog-trace { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes prog-marque { from { opacity: .25; transform: scale(.78) rotate(-6deg); } to { opacity: 1; transform: none; } }
+@media (max-width: 860px) {
+  .prog-trace { left: 43px; top: 44px; bottom: 44px; }
+  .prog-etape { grid-template-columns: 88px minmax(0, 1fr); column-gap: 16px; align-items: start; }
+  .prog-marque { width: 88px; height: 88px; grid-column: 1; grid-row: 1 / span 2; }
+  .prog-savoir > div { grid-template-columns: 80px minmax(0, 1fr); }
+  .prog-savoir__img { width: 80px; height: 80px; }
+  .prog-heure { grid-column: 2; grid-row: 1; text-align: left; font-size: 2rem; padding-top: 18px; }
+  .prog-corps { grid-column: 2; grid-row: 2; padding-top: 6px; }
+  .prog-savoir { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+<link rel="icon" href="assets/monogramme.webp">
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-tpl">
+
+
+<div class="page" style="position: relative; min-height: 100vh; overflow-x: clip;">
+
+<svg class="defs" aria-hidden="true" focusable="false">
+  <filter id="fremit" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="2" result="bruit">
+      <animate attributeName="seed" values="2;7;4;9;1;6" dur="0.7s" calcMode="discrete" repeatCount="indefinite"></animate>
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="bruit" scale="3.2" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+  <filter id="grain-pierre" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="11"></feTurbulence>
+    <feColorMatrix type="matrix" values="0 0 0 0 0.42  0 0 0 0 0.35  0 0 0 0 0.26  0 0 0 0.6 0"></feColorMatrix>
+  </filter>
+</svg>
+
+<a class="saut" href="#contenu">Aller au contenu</a>
+
+<header class="wrap">
+  <nav class="nav" aria-label="Navigation principale">
+    <a class="nav__marque" href="index.html">
+      <img class="nav__monogramme" src="assets/monogramme.webp" alt="" width="664" height="583">
+      <span>Marine &amp; Pierre</span>
+    </a>
+    <ul class="nav__liens">
+      <li><a href="programme.html" aria-current="page">Programme</a></li>
+      <li><a href="acces.html">Accès</a></li>
+      <li><a href="hebergements.html">Hébergements</a></li>
+      <li><a href="liste.html">Liste de mariage</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li style="margin-left: 12px;"><a class="bouton bouton--plein bouton--petit" href="repondre.html" style="color: #FFF9F4;">Répondre</a></li>
+    </ul>
+    <button class="icone-bouton nav__menu" type="button" aria-expanded="{{menuEtat}}" onClick="{{ouvrir}}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5c5.3-.4 10.7-.3 16 0M4 12.2c5.3-.3 10.7-.2 16 .1M4 16.8c5.3-.4 10.7-.3 16 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+      Menu
+    </button>
+  </nav>
+</header>
+
+<sc-if value="{{menu}}" hint-placeholder-val="{{false}}">
+  <div class="voile-menu" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="voile-menu__tete">
+      <a class="nav__marque" href="index.html"><span>Marine &amp; Pierre</span></a>
+      <button class="icone-bouton" type="button" onClick="{{fermer}}" aria-label="Fermer le menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6.3c4 3.6 8 7.5 12 11.5M18 6c-3.9 4-7.9 7.9-12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+      </button>
+    </div>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="programme.html" aria-current="page">Programme</a></li>
+      <li><a href="acces.html">Accès</a></li>
+      <li><a href="hebergements.html">Hébergements</a></li>
+      <li><a href="liste.html">Liste de mariage</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="voile-menu__pied">
+      <a class="bouton bouton--plein" href="repondre.html" style="color: #FFF9F4;">Répondre à l’invitation</a>
+      <p style="color: #4B5A51; font-size: 0.95rem;">Samedi 12 juin 2027, Guéthary puis Sare</p>
+    </div>
+  </div>
+</sc-if>
+
+<main id="contenu">
+
+  <section class="entete" aria-labelledby="titre-page">
+    <div class="lavis lavis--rose" style="left: -8%; top: 8%; width: 44%; height: 80%; opacity: 0.34;"></div>
+    <div class="wrap entete__grille">
+      <div>
+        <h1 id="titre-page" class="entete__titre">Samedi<br>12 juin</h1>
+        <p class="entete__intro">De Guéthary à Sare, le fil de la journée. Les horaires sont indicatifs : au Pays basque, on prend le temps.</p>
+        <div class="prog-agenda">
+          <a class="bouton bouton--trait" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Mariage%20de%20Marine%20et%20Pierre&amp;dates=20270612T123000Z/20270613T010000Z&amp;location=%C3%89glise%20Saint-Nicolas%2C%2064210%20Gu%C3%A9thary&amp;details=C%C3%A9r%C3%A9monie%20%C3%A0%2015%20h%2C%20puis%20r%C3%A9ception%20%C3%A0%20Sare%2C%20Au%20milieu%20des%20foug%C3%A8res." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 7.2c5-.4 10-.3 15 0v12.3c-5 .3-10 .3-15 0zM4.6 10.8c5-.3 10-.2 14.8 0M8.5 4.3v4.4M15.6 4.2v4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            Ajouter à mon agenda
+          </a>
+        </div>
+      </div>
+      <div class="entete__deco"><img class="vignette" src="assets/vignettes/calendrier.webp" alt="" width="426" height="517" style="width: 88%; margin-left: auto;"></div>
+    </div>
+  </section>
+  <figure class="wrap prog-bandeau" style="margin-block: 0 8px;"><img src="assets/illu-eglise.webp" alt="L’église Saint-Nicolas de Guéthary sur sa falaise, au-dessus de l’océan, à l’aquarelle" width="1600" height="619" fetchpriority="high"></figure>
+
+  <section class="prog-chemin" aria-label="Déroulé de la journée">
+    <div class="lavis lavis--sauge" style="right: -10%; top: 30%; width: 50%; height: 30%; opacity: 0.3;"></div>
+    <div class="lavis lavis--bleu" style="left: -12%; top: 4%; width: 40%; height: 18%; opacity: 0.28;"></div>
+    <div class="wrap">
+      <ol class="prog-liste">
+        <li class="prog-trace" aria-hidden="true" style="list-style: none;"></li>
+
+        <li class="prog-etape">
+          <p class="prog-heure">14 h 30</p>
+          <span class="prog-marque" aria-hidden="true"><img src="assets/vignettes/eglise.webp" alt="" width="480" height="655"></span>
+          <div class="prog-corps">
+            <h2>Accueil sur le parvis</h2>
+            <p>Retrouvons-nous devant l’église. Les places sont rares dans le village : venez un peu en avance, ou en covoiturage.</p>
+            <span class="prog-lieu"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14.6c-2.6-3-4.6-5.6-4.6-8a4.6 4.6 0 0 1 9.2 0c0 2.4-2 5-4.6 8z" fill="none" stroke="currentColor" stroke-width="1.3"></path><circle cx="8" cy="6.5" r="1.6" fill="currentColor"></circle></svg>Église Saint-Nicolas, Guéthary</span>
+          </div>
+        </li>
+
+        <li class="prog-etape prog-etape--fort">
+          <p class="prog-heure">15 h</p>
+          <span class="prog-marque" aria-hidden="true"><img src="assets/vignettes/alliances.webp" alt="" width="465" height="468"></span>
+          <div class="prog-corps">
+            <h2>La cérémonie</h2>
+            <p>Messe de mariage sous les galeries de bois de 1636, accompagnée par un chœur d’hommes basque. Elle dure environ une heure.</p>
+            <span class="prog-lieu"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14.6c-2.6-3-4.6-5.6-4.6-8a4.6 4.6 0 0 1 9.2 0c0 2.4-2 5-4.6 8z" fill="none" stroke="currentColor" stroke-width="1.3"></path><circle cx="8" cy="6.5" r="1.6" fill="currentColor"></circle></svg>Église Saint-Nicolas, Guéthary</span>
+          </div>
+        </li>
+
+        <li class="prog-etape">
+          <p class="prog-heure">16 h 15</p>
+          <span class="prog-marque" aria-hidden="true"><img src="assets/vignettes/navette.webp" alt="" width="493" height="444"></span>
+          <div class="prog-corps">
+            <h2>Photo de groupe, puis en route</h2>
+            <p>Une grande photo sur les marches, puis les navettes partent du parvis à 16 h 30 et 16 h 50 pour Sare. Comptez 35 minutes par la route de la Rhune.</p>
+            <span class="prog-lieu"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14.6c-2.6-3-4.6-5.6-4.6-8a4.6 4.6 0 0 1 9.2 0c0 2.4-2 5-4.6 8z" fill="none" stroke="currentColor" stroke-width="1.3"></path><circle cx="8" cy="6.5" r="1.6" fill="currentColor"></circle></svg>Parvis de l’église</span>
+          </div>
+        </li>
+
+        <li class="prog-etape">
+          <p class="prog-heure">17 h 30</p>
+          <span class="prog-marque" aria-hidden="true"><img src="assets/vignettes/txakoli.webp" alt="" width="441" height="567"></span>
+          <div class="prog-corps">
+            <h2>Le vin d’honneur</h2>
+            <p>Txakoli, cidre et pintxos sous les tilleuls du parc. Les plus vaillants pourront tenter une partie de pelote sur le fronton.</p>
+            <span class="prog-lieu"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14.6c-2.6-3-4.6-5.6-4.6-8a4.6 4.6 0 0 1 9.2 0c0 2.4-2 5-4.6 8z" fill="none" stroke="currentColor" stroke-width="1.3"></path><circle cx="8" cy="6.5" r="1.6" fill="currentColor"></circle></svg>Parc du domaine, Sare</span>
+          </div>
+        </li>
+
+        <li class="prog-etape">
+          <p class="prog-heure">20 h</p>
+          <span class="prog-marque" aria-hidden="true"><img src="assets/vignettes/table.webp" alt="" width="465" height="597"></span>
+          <div class="prog-corps">
+            <h2>Le dîner</h2>
+            <p>À table sur la terrasse, face à la Rhune et aux Pyrénées. Le menu tient compte de vos réponses sur les allergies et les régimes.</p>
+            <span class="prog-lieu"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14.6c-2.6-3-4.6-5.6-4.6-8a4.6 4.6 0 0 1 9.2 0c0 2.4-2 5-4.6 8z" fill="none" stroke="currentColor" stroke-width="1.3"></path><circle cx="8" cy="6.5" r="1.6" fill="currentColor"></circle></svg>Terrasse du domaine</span>
+          </div>
+        </li>
+
+        <li class="prog-etape">
+          <p class="prog-heure">23 h</p>
+          <span class="prog-marque" aria-hidden="true"><img src="assets/vignettes/espadrilles.webp" alt="" width="442" height="573"></span>
+          <div class="prog-corps">
+            <h2>Le bal</h2>
+            <p>La piste s’ouvre dans la grande salle aux poutres de chêne. Fandango obligatoire, puis place à vos demandes.</p>
+            <span class="prog-lieu"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14.6c-2.6-3-4.6-5.6-4.6-8a4.6 4.6 0 0 1 9.2 0c0 2.4-2 5-4.6 8z" fill="none" stroke="currentColor" stroke-width="1.3"></path><circle cx="8" cy="6.5" r="1.6" fill="currentColor"></circle></svg>Salle du domaine</span>
+          </div>
+        </li>
+
+        <li class="prog-etape">
+          <p class="prog-heure">1 h</p>
+          <span class="prog-marque" aria-hidden="true"><img src="assets/vignettes/lune-rhune.webp" alt="" width="507" height="543"></span>
+          <div class="prog-corps">
+            <h2>Les navettes du retour</h2>
+            <p>Départs à 1 h, 2 h et 3 h vers le bourg de Sare et Saint-Jean-de-Luz. Inscrivez-vous en répondant à l’invitation, pour qu’on garde votre place.</p>
+            <span class="prog-lieu"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14.6c-2.6-3-4.6-5.6-4.6-8a4.6 4.6 0 0 1 9.2 0c0 2.4-2 5-4.6 8z" fill="none" stroke="currentColor" stroke-width="1.3"></path><circle cx="8" cy="6.5" r="1.6" fill="currentColor"></circle></svg>Entrée du domaine</span>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="titre-savoir">
+    <div class="lavis lavis--sable" style="left: -6%; top: 0; width: 60%; height: 100%; opacity: 0.42;"></div>
+    <div class="wrap">
+      <h2 id="titre-savoir" class="section__titre">Bon à savoir</h2>
+      <div class="prog-savoir">
+        <div>
+          <img class="prog-savoir__img" src="assets/vignettes/tenues.webp" alt="" width="508" height="622" loading="lazy"><h3>La tenue</h3>
+          <p>Tenue de fête. Le parvis est pavé et le parc en herbe : préférez des talons larges, et gardez une étole pour la soirée.</p>
+        </div>
+        <div>
+          <img class="prog-savoir__img" src="assets/vignettes/chapeau.webp" alt="" width="468" height="409" loading="lazy"><h3>Les enfants</h3>
+          <p>Ils sont les bienvenus. À partir de 19 h, deux animatrices les attendent au domaine, avec un dîner rien que pour eux.</p>
+        </div>
+        <div>
+          <img class="prog-savoir__img" src="assets/vignettes/cloche.webp" alt="" width="453" height="579" loading="lazy"><h3>Une cérémonie débranchée</h3>
+          <p>Gardons les téléphones dans la poche pendant la messe : notre photographe s’occupe de tout, et vous recevrez les photos.</p>
+        </div>
+        <div>
+          <img class="prog-savoir__img" src="assets/vignettes/parasol.webp" alt="" width="535" height="546" loading="lazy"><h3>S’il pleut</h3>
+          <p>Une averse est toujours possible au pied de la Rhune. Des parapluies blancs vous attendront à l’église et au domaine.</p>
+        </div>
+      </div>
+      <p style="margin-top: 48px; display: flex; flex-wrap: wrap; gap: 12px;">
+        <a class="bouton bouton--plein" href="acces.html" style="color: #FFF9F4;">Comment venir</a>
+        <a class="bouton bouton--trait" href="hebergements.html">Où dormir à Sare</a>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<nav class="barre" aria-label="Navigation rapide">
+    <a class="barre__lien" href="programme.html" aria-current="page"><img src="assets/vignettes/calendrier.webp" alt="" width="426" height="517"><span>Programme</span></a>
+    <a class="barre__lien" href="acces.html"><img src="assets/vignettes/carte.webp" alt="" width="462" height="450"><span>Accès</span></a>
+    <a class="barre__lien barre__lien--rsvp" href="repondre.html"><img src="assets/vignettes/enveloppe.webp" alt="" width="472" height="376"><span>Répondre</span></a>
+    <a class="barre__lien" href="hebergements.html"><img src="assets/vignettes/cle.webp" alt="" width="438" height="522"><span>Dormir</span></a>
+    <button class="barre__lien" type="button" onClick="{{ouvrir}}" aria-expanded="{{menuEtat}}" aria-label="Plus de pages : accueil, liste de mariage, contact"><svg viewBox="0 0 26 30" aria-hidden="true"><circle cx="5" cy="17" r="2.2" fill="currentColor"></circle><circle cx="13" cy="16.6" r="2.2" fill="currentColor"></circle><circle cx="21" cy="17.2" r="2.2" fill="currentColor"></circle></svg><span>Plus</span></button>
+</nav>
+
+<footer class="pied">
+  <div class="lavis lavis--sauge pied__lavis"></div>
+  <div class="wrap">
+    <div class="pied__appel">
+      <div>
+        <h2 class="pied__titre">Serez-vous des nôtres ?</h2>
+        <p class="pied__texte">Merci de nous répondre avant le 15 mars 2027 : le traiteur a besoin de connaître le nombre de couverts et vos éventuelles allergies.</p>
+      </div>
+      <div class="pied__actions">
+        <a class="bouton bouton--plein" href="repondre.html" style="color: #FFF9F4;">Répondre à l’invitation</a>
+      </div>
+    </div>
+    <div class="pied__bas">
+      <p>Marine &amp; Pierre, le 12 juin 2027 à Sare</p>
+      <ul class="pied__liens">
+        <li><a href="programme.html">Programme</a></li>
+        <li><a href="acces.html">Accès</a></li>
+        <li><a href="hebergements.html">Hébergements</a></li>
+        <li><a href="liste.html">Liste</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="bascule" type="button" aria-pressed="{{animOn}}" onClick="{{basculer}}">
+        <span class="bascule__piste" aria-hidden="true"></span>
+        <span>Animations</span>
+      </button>
+    </div>
+  </div>
+</footer>
+
+</div>
+</template>
+<script src="morphdom.min.js"></script>
+<script src="dc-runtime.js"></script>
+<script>
+class Component extends DCLogic {
+  componentDidMount() {
+    var calme = false;
+    try { calme = window.localStorage.getItem('mp-calme') === '1'; } catch (e) {}
+    try { document.documentElement.classList.toggle('calme', calme); } catch (e) {}
+    this.setState({ calme: calme });
+  }
+  renderVals() {
+    var s = this.state || {};
+    var self = this;
+    return {
+      menu: !!s.menu,
+      menuEtat: s.menu ? 'true' : 'false',
+      ouvrir: function () { self.setState({ menu: true }); },
+      fermer: function () { self.setState({ menu: false }); },
+      animOn: s.calme ? 'false' : 'true',
+      basculer: function () {
+        var v = !self.state || !self.state.calme;
+        try { document.documentElement.classList.toggle('calme', v); } catch (e) {}
+        try { window.localStorage.setItem('mp-calme', v ? '1' : '0'); } catch (e) {}
+        self.setState({ calme: v });
+      }
+    };
+  }
+}
+DC.demarrer(Component);
+</script>
+</body>
+</html>
