@@ -276,15 +276,6 @@ a{color:#4A6645}a:hover{color:#A23B31}
                         <span class="champ__aide">Pour prévoir les menus et l’espace enfants, ouvert à partir de 19 h.</span>
                       </div>
                     </sc-if>
-
-                    <fieldset class="champ">
-                      <legend style="margin-bottom: 10px;">Prendrez-vous une navette ?</legend>
-                      <div class="choix">
-                        <sc-for list="{{p.navettes}}" as="n" hint-placeholder-count="4">
-                          <button class="puce" type="button" aria-pressed="{{n.presse}}" onClick="{{n.basculer}}">{{n.label}}</button>
-                        </sc-for>
-                      </div>
-                    </fieldset>
                   </div>
                 </sc-if>
 
@@ -541,15 +532,6 @@ class Component extends DCLogic {
       var on = !!P.moments[m[0]];
       return { label: m[1], presse: on ? 'true' : 'false', opacite: on ? '1' : '0.25', basculer: function () { var x = Object.assign({}, P.moments); x[m[0]] = !on; self.maj('p', { moments: x }); } };
     });
-    var navDefs = [['aller', 'Aller, 16 h 30 ou 16 h 50'], ['bourg', 'Retour vers le bourg de Sare'], ['sjl', 'Retour vers Saint-Jean-de-Luz'], ['non', 'Non, je suis en voiture']];
-    var navettes = navDefs.map(function (n) {
-      var on = !!P.navettes[n[0]];
-      return { label: n[1], presse: on ? 'true' : 'false', basculer: function () {
-        var x = Object.assign({}, P.navettes);
-        if (n[0] === 'non') { x = on ? {} : { non: true }; } else { x[n[0]] = !on; delete x.non; }
-        self.maj('p', { navettes: x });
-      } };
-    });
     var pErrNom = P.tente && !P.nom.trim();
     var pErrEmail = P.tente && !emailOk;
     var pErrVenue = P.tente && !P.venue;
@@ -561,7 +543,7 @@ class Component extends DCLogic {
       ouiPresse: P.venue === 'oui' ? 'true' : 'false', nonPresse: P.venue === 'non' ? 'true' : 'false',
       errNom: pErrNom, errEmail: pErrEmail, errVenue: pErrVenue,
       nomInvalide: pErrNom ? 'true' : 'false', emailInvalide: pErrEmail ? 'true' : 'false',
-      moments: moments, navettes: navettes,
+      moments: moments,
       envoye: P.envoye, pasEnvoye: !P.envoye,
       merciTitre: P.venue === 'oui' ? 'C’est noté !' : 'Merci pour votre mot',
       merciTexte: P.venue === 'oui'
